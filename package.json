@@ -19,7 +19,8 @@
     "wagmi": "^0.3.5",
     "web-vitals": "^2.1.4",
     "web3": "^1.7.3",
-    "web3modal": "^1.9.7"
+    "web3modal": "^1.9.7",
+    "face-api.js": "^0.22.2"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -21,6 +21,7 @@ function App() {
         });
       };
       console.log(image);
+      console.log("file");
     };
     file && getImage();
   }, [file]);

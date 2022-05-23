@@ -6,6 +6,7 @@ export default function Home() {
   const [twitter, setTwitter] = useState("");
   const [name, setName] = useState("");
   const [profile, setProfile] = useState({});
+  const [ProfileImage, setProfileImage] = useState("");
   const [localDid, setDid] = useState(null);
   const [selfId, setSelfId] = useState(null);
   const [loaded, setLoaded] = useState(false);
@@ -27,6 +28,7 @@ export default function Home() {
     const data = await selfId.get("basicProfile", id);
     if (data) {
       setProfile(data);
+      console.log("data: ", data);
     } else {
       setShowGreeting(true);
     }
@@ -45,6 +47,8 @@ export default function Home() {
     if (twitter) user.twitter = twitter;
     if (bio) user.bio = bio;
     if (name) user.name = name;
+    if (ProfileImage) user.profileImage = ProfileImage;
+
     await selfIdRef.current.set("basicProfile", user);
     setLocalProfileData();
     console.log("profile updated...");
@@ -102,6 +106,7 @@ export default function Home() {
 
           {Object.keys(profile).length ? (
             <div className="mb-4">
+              <img className="rounded-full w-12 m-8" src={profile.image}  alt=""/>
               <h2 className="text-2xl font-semibold mt-6">{profile.name}</h2>
               <p className="text-gray-500 text-sm my-1">{profile.bio}</p>
               {profile.twitter && (
@@ -140,6 +145,11 @@ export default function Home() {
                 className="pt-4 rounded bg-gray-100 px-3 py-2"
                 placeholder="Name"
                 onChange={(e) => setName(e.target.value)}
+              />
+              <input
+                className="pt-4 rounded bg-gray-100 px-3 py-2"
+                placeholder="DP"
+                onChange={(e) => setProfileImage(e.target.value)}
               />
               <input
                 className="pt-4 rounded bg-gray-100 px-3 py-2 my-2"

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+import { Provider } from "@self.id/framework";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
   apiProvider,
@@ -29,9 +30,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <WagmiProvider client={wagmiClient}>
     <RainbowKitProvider chains={chains}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      <Provider client={{ ceramic: "testnet-clay" }}>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </Provider>
     </RainbowKitProvider>
   </WagmiProvider>
 );

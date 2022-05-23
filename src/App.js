@@ -2,12 +2,15 @@
 import { useState, useEffect } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 // import Create from "./components/Create";
+// import ConnectButton1 from "./components/ConnectButton";
+import FaceAuthenticate from "./components/FaceAuthenticate";
 import Home from "./components/Home";
 import "./App.css";
 
 function App() {
-  const [file, setFile] = useState();
+  const [file] = useState();
   const [image, setImage] = useState();
+ 
 
   useEffect(() => {
     const getImage = () => {
@@ -30,20 +33,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <ConnectButton />
-        {/* <Create /> */}
+        <FaceAuthenticate />
         <Home></Home>
-        {/* {image && <NewPost image={image} />} */}
 
         <label htmlFor="file"></label>
-        <input
-          onChange={(e) => setFile(e.target.files[0])}
-          id="file"
-          // style={{ display: "none" }}
-          type="file"
-        />
-        <button onClick={() => document.getElementById("file").click()}>
-          Upload
-        </button>
       </header>
     </div>
   );

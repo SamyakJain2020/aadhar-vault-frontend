@@ -1,9 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 
-import FaceAuthenticate from "./components/FaceAuthenticate";
-
-
 import "./App.css";
 function App() {
   const [file] = useState();
@@ -28,12 +25,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <FaceAuthenticate />
-
-        <label htmlFor="file"></label>
-      </header>
-
+      <header className="App-header"></header>
     </div>
   );
 }

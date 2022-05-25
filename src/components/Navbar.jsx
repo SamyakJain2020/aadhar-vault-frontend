@@ -35,29 +35,29 @@ export default function Example() {
           </div>
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
           <a
-              href="#"
+              href="/"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
-              {/* <Link to="/">HOME</Link> */}
+              HOME
             </a>
             <a
-              href="#"
+              href="/home"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
-              {/* <Link to="/SSI">SSI</Link> */}
+              SSI
             </a>
             <a
-              href="#"
+              href="/auth"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
-               {/* <Link to="/">SIGN Document</Link> */}
+              SIGN Document
               
             </a>
             <a
               href="#"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
-              {/* <Link to="/">Verify Document</Link> */}
+              Verify Document
               
             </a>
           </Popover.Group>

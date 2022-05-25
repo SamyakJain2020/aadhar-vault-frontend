@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { webClient, getRecord } from "../utils/identity";
-
+import { Modal } from '@mantine/core';
+import Auth from "./Auth";
 export default function Home() {
   const [bio, setBio] = useState("");
   const [twitter, setTwitter] = useState("");
@@ -11,6 +12,7 @@ export default function Home() {
   const [selfId, setSelfId] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [showGreeting, setShowGreeting] = useState(false);
+  const [opened, setOpened] = useState(false);
   const selfIdRef = useRef(null);
   const didRef = useRef(null);
   selfIdRef.current = selfId;
@@ -24,7 +26,9 @@ export default function Home() {
       return;
     }
     setDid(id);
+    console.log("id: ", id);
     setSelfId(selfId);
+    console.log("selfId: ", selfId);
     const data = await selfId.get("basicProfile", id);
     if (data) {
       setProfile(data);
@@ -106,7 +110,7 @@ export default function Home() {
 
           {Object.keys(profile).length ? (
             <div className="mb-4">
-              <img className="rounded-full w-12 m-8" src={profile.image}  alt=""/>
+              <img className="rounded-full w-12 m-8" src={profile.profileImage}  alt=""/>
               <h2 className="text-2xl font-semibold mt-6">{profile.name}</h2>
               <p className="text-gray-500 text-sm my-1">{profile.bio}</p>
               {profile.twitter && (
@@ -126,12 +130,12 @@ export default function Home() {
                 Authenticate
               </button>
 
-              <button
+              {/* <button
                 className="pt-4 shadow-md bg-blue-500 mb-2 text-white font-bold py-2 px-4 rounded"
                 onClick={readProfile}
               >
                 Read Profile
-              </button>
+              </button> */}
             </>
           )}
           {loaded && showGreeting && (
@@ -173,6 +177,14 @@ export default function Home() {
               >
                 Read Profile
               </button>
+              <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        // title="Introduce yourself!"
+      >
+       <Auth></Auth>
+      </Modal>
+      <button onClick={() => setOpened(true)}>Open Modal</button>
             </>
           )}
         </div>

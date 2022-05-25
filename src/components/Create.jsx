@@ -1,82 +1,72 @@
-import { useState } from "react";
-import CeramicClient from "@ceramicnetwork/http-client";
-import ThreeIdResolver from "@ceramicnetwork/3id-did-resolver";
-
-import { EthereumAuthProvider, ThreeIdConnect } from "@3id/connect";
-import { DID } from "dids";
-import { IDX } from "@ceramicstudio/idx";
-
-const endpoint = "https://ceramic-clay.3boxlabs.com";
-
+import { ethers } from "ethers";
+import { useState, useEffect } from "react";
+import SimpleStorageContract from "./contracts/SimpleStorage.json";
+const ContractAddress = "";
 const Create = () => {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("");
+  const [name, setName] = useState({
+    storageValue: 0,
+    web3: null,
+    accounts: null,
+    contract: null,
+  });
+  const [account, setAccount] = useState("");
+  // const [image, setImage] = useState("");
   const [loaded, setLoaded] = useState(false);
 
-  async function connect() {
-    const addresses = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    return addresses;
-  }
+  const checkWalletConnected = async () => {
+    const { ethereum } = window;
 
-  async function readProfile() {
-    const [address] = await connect();
-    const ceramic = new CeramicClient(endpoint);
-    const idx = new IDX({ ceramic });
-
-    try {
-      const data = await idx.get("basicProfile", `${address}@eip155:1`);
-      console.log("data: ", data);
-      if (data.name) setName(data.name);
-      if (data.avatar) setImage(data.avatar);
-    } catch (error) {
-      console.log("error: ", error);
-      setLoaded(true);
+    if (!ethereum) {
+      console.log("Install Metamask");
+      return;
     }
-  }
 
-  async function updateProfile() {
-    const [address] = await connect();
-    const ceramic = new CeramicClient(endpoint);
-    const threeIdConnect = new ThreeIdConnect();
-    const provider = new EthereumAuthProvider(window.ethereum, address);
+    const accounts = await ethereum.request({ method: "eth_accounts" });
 
-    await threeIdConnect.connect(provider);
+    if (accounts.length !== 0) {
+      const account = accounts[0];
+      console.log("Found Account, ", account);
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let network = await provider.getNetwork();
+      setAccount(account);
+      // setNetwork(network.name);
+      if (network.chainId !== 80001) {
+        console.log("Wrong network");
+      } else {
+        console.log("maticmum connected");
+      }
+    } else {
+      console.log("Create a Ethereum Account");
+    }
+  };
 
-    const did = new DID({
-      provider: threeIdConnect.getDidProvider(),
-      resolver: {
-        ...ThreeIdResolver.getResolver(ceramic),
-      },
-    });
+  useEffect(() => checkWalletConnected, []);
 
-    ceramic.setDID(did);
-    await ceramic.did.authenticate();
-
-    const idx = new IDX({ ceramic });
-
-    await idx.set("basicProfile", {
-      name,
-      avatar: image,
-    });
-
-    console.log("Profile updated!");
+  async function getAddresses() {
+    setLoaded(true);
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    let signer = await provider.getSigner();
+    // let alive = new ethers.Contract(ContractAddress, AliveCore.abi, signer);
+    try {
+      // let allbands = await alive.returnAllBands();
+      let hash = ethers.utils.hashMessage("123123");
+      let result = await signer.signMessage("123123");
+      console.log("hash: ", hash);
+      console.log("resuilt:", result);
+      let ans = ethers.utils.verifyMessage("123123", result);
+      console.log("asm:", ans);
+      setLoaded(false);
+    } catch (error) {}
   }
 
   return (
     <div className="p-10 m-10 ">
-      <input placeholder="Name" onChange={(e) => setName(e.target.value)} />
-      <input
-        placeholder="Profile Image"
-        onChange={(e) => setImage(e.target.value)}
-      />
-      <button onClick={updateProfile}>Set Profile</button>
-      <button onClick={readProfile}>Read Profile</button>
-
-      {name && <h3>{name}</h3>}
-      {image && <img style={{ width: "400px" }} src={image} alt=""/>}
-      {!image && !name && loaded && <h4>No profile, please create one...</h4>}
+      <h2>EIP 712 Example</h2>
+      <p>
+        Try changing the value stored on <strong>line 51</strong> of App.js.
+      </p>
+      <div>The stored value is: {name.storageValue}</div>
+      <button onClick={getAddresses}> Press to sign </button>
     </div>
   );
 };

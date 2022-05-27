@@ -1,7 +1,6 @@
-import React from "react";
+import React,{useState} from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import Navbar from "./components/Navbar";
 
 import { Provider } from "@self.id/framework";
@@ -15,15 +14,17 @@ import {
   darkTheme,
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import HomePage from "./components/HomePage";
-import Home from "./components/Home";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Auth from "./components/Auth";
-import IPFS from "./components/IPFS";
-import Create from "./components/Create";
+import App from "./App";
+
 
 const { chains, provider } = configureChains(
-  [chain.mainnet,chain.ropsten, chain.polygonMumbai, chain.rinkeby, chain.polygon],
+  [
+    chain.mainnet,
+    chain.ropsten,
+    chain.polygonMumbai,
+    chain.rinkeby,
+    chain.polygon,
+  ],
   [apiProvider.alchemy(process.env.POLYGON_ALCHEMY), apiProvider.fallback()]
 );
 
@@ -52,17 +53,7 @@ root.render(
       <Provider client={{ ceramic: "testnet-clay" }}>
         <React.StrictMode>
           <Navbar />
-          <Router>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/sign" element={<IPFS/>} />
-              <Route path="/home" element={< Home/>} />
-              <Route path="/auth" element={< Auth/>} />
-              <Route path="/create" element={<Create></Create>} />
-              
-            </Routes>
-          </Router>
-         
+          <App></App>
         </React.StrictMode>
       </Provider>
     </RainbowKitProvider>

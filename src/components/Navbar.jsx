@@ -1,20 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Popover } from "@headlessui/react";
-import {
-  MenuIcon,
-  } from "@heroicons/react/outline";
+import { MenuIcon } from "@heroicons/react/outline";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-export default function Example() {
 
+export default function Example() {
   return (
     <header>
-      
       <Popover className="relative bg-black">
         <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8">
           <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -34,7 +25,7 @@ export default function Example() {
             </Popover.Button>
           </div>
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
-          <a
+            <a
               href="/"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
@@ -51,23 +42,19 @@ export default function Example() {
               className="text-base font-medium text-white hover:text-indigo-900"
             >
               SIGN Document
-              
             </a>
             <a
               href="#"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
               Verify Document
-              
             </a>
           </Popover.Group>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <ConnectButton />
           </div>
         </div>
-
       </Popover>
-     
     </header>
   );
 }

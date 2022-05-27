@@ -1,31 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-
+import HomePage from "./components/HomePage";
+import Home from "./components/Home";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Auth from "./components/Auth";
+import IPFS from "./components/IPFS.tsx";
+import Create from "./components/Create";
 import "./App.css";
 function App() {
-  const [file] = useState();
-  const [image, setImage] = useState();
-
-  useEffect(() => {
-    const getImage = () => {
-      const img = new Image();
-      img.src = URL.createObjectURL(file);
-      img.onload = () => {
-        setImage({
-          url: img.src,
-          width: img.width,
-          height: img.height,
-        });
-      };
-      console.log(image);
-      console.log("file");
-    };
-    file && getImage();
-  }, [file]);
+  const [verfied, setVerified] = useState();
 
   return (
-    <div className="App">
-      <header className="App-header"></header>
+    <div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/sign" element={<IPFS />} />
+          <Route
+            path="/home"
+            element={<Home verified={verfied} setVerified={setVerified} />}
+          />
+          <Route
+            path="/auth"
+            element={<Auth verified={verfied} setVerified={setVerified} />}
+          />
+          <Route
+            path="/create"
+            element={
+              <Create setVerified={setVerified} verified={verfied}></Create>
+            }
+          />
+        </Routes>
+      </Router>
     </div>
   );
 }

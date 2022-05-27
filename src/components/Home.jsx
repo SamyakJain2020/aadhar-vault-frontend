@@ -181,9 +181,11 @@ export default function Home({ verified, setVerified }) {
                 {!setMFADone ? (
                   <Auth verified={verified} setVerified={setVerified} />
                 ) : (
-                  <Create verified={verified} setVerified={setVerified} 
-                  setMFADone={setMFADone} 
-                  updateProfile={updateProfile}
+                  <Create
+                    verified={verified}
+                    setVerified={setVerified}
+                    setMFADone={setMFADone}
+                    updateProfile={updateProfile}
                   />
                 )}
               </Modal>

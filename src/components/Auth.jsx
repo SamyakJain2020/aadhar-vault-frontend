@@ -14,7 +14,7 @@ try {
   ipfs = undefined;
 }
 
-const Auth = ({ verified, setVerified }) => {
+const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
   const [images, setImages] = React.useState([]);
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
@@ -36,7 +36,6 @@ const Auth = ({ verified, setVerified }) => {
 
   useEffect(() => {
     checkWalletConnected();
-    startCamera();
   }, []);
 
   const checkWalletConnected = async () => {
@@ -161,13 +160,19 @@ const Auth = ({ verified, setVerified }) => {
       "https://face-verification2.p.rapidapi.com/faceverification",
       requestOptions
     )
-      .then((response) => response.text())
+      .then((response) => response.json())
       .then((result) => {
         console.log(result);
-        if (result.similarPercent > 0.75) {
+        console.log(result.data);
+        console.log(result.data.similarPercent);
+        if (result.data.similarPercent > 0.75) {
+          console.log("verified");
+          setIsDoneMFA(true);
           setVerified(true);
         } else {
+          console.log("not verified");
           setVerified(false);
+          setIsDoneMFA(false);
         }
       })
       .catch((error) => console.log("error", error));

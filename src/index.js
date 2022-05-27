@@ -1,7 +1,8 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import Navbar from "./components/Navbar";
+import { Worker } from "@react-pdf-viewer/core";
 
 import { Provider } from "@self.id/framework";
 
@@ -15,7 +16,6 @@ import {
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import App from "./App";
-
 
 const { chains, provider } = configureChains(
   [
@@ -53,7 +53,9 @@ root.render(
       <Provider client={{ ceramic: "testnet-clay" }}>
         <React.StrictMode>
           <Navbar />
-          <App></App>
+          <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.13.216/build/pdf.worker.min.js">
+            <App></App>
+          </Worker>
         </React.StrictMode>
       </Provider>
     </RainbowKitProvider>

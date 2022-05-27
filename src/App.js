@@ -4,7 +4,7 @@ import HomePage from "./components/HomePage";
 import Home from "./components/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Auth from "./components/Auth";
-import IPFS from "./components/IPFS.tsx";
+import IPFS from "./components/IPFS";
 import Create from "./components/Create";
 import "./App.css";
 function App() {
@@ -15,7 +15,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/sign" element={<IPFS />} />
+          <Route path="/sign" element={<IPFS verified={verfied} setVerified={setVerified}/>} />
           <Route
             path="/home"
             element={<Home verified={verfied} setVerified={setVerified} />}

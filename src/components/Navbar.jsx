@@ -41,10 +41,10 @@ export default function Example() {
               href="/sign"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
-              SIGN Document
+              Sign Document
             </a>
             <a
-              href="#"
+              href="/my-docs"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
               My Verified Documents

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { webClient, getRecord } from "../utils/identity";
 import { Modal } from "@mantine/core";
 import { Button, InputWrapper, Input } from "@mantine/core";
@@ -12,7 +12,7 @@ export default function Home({ verified, setVerified }) {
   const [ProfileImage, setProfileImage] = useState("");
   const [localDid, setDid] = useState(null);
   const [selfId, setSelfId] = useState(null);
-  const [MFADone, setMFADone] = useState(null);
+  const [MFADone, setMFADone] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [showGreeting, setShowGreeting] = useState(false);
   const [opened, setOpened] = useState(false);
@@ -36,6 +36,7 @@ export default function Home({ verified, setVerified }) {
     const data = await selfId.get("basicProfile", id);
     if (data) {
       setProfile(data);
+      if (data.MFADone) setMFADone(data.MFADone);
       console.log("data: ", data);
     } else {
       setShowGreeting(true);
@@ -44,7 +45,8 @@ export default function Home({ verified, setVerified }) {
     setLoading(false);
   }
 
-  async function updateProfile() {
+  async function updateProfile(mfa = 0) {
+    // const form = e.target;
     console.log("updateProfile");
     // if (!twitter && !bio && !name) {
     //   console.log("error... no profile information submitted");
@@ -58,12 +60,17 @@ export default function Home({ verified, setVerified }) {
     if (bio) user.bio = bio;
     if (name) user.name = name;
     if (ProfileImage) user.profileImage = ProfileImage;
-    if (MFADone) user.MFADone = MFADone;
+    // eslint-disable-next-line eqeqeq
+    if (mfa != 0) user.MFADone = mfa;
 
     await selfIdRef.current.set("basicProfile", user);
     setLocalProfileData();
     console.log("profile updated...");
+    // form.reset();
   }
+  useEffect(() => {
+    console.log("MFADone", MFADone);
+  }, [MFADone]);
 
   async function readProfile() {
     try {
@@ -206,11 +213,15 @@ export default function Home({ verified, setVerified }) {
               {loaded && (
                 <>
                   <button
-                    className="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600  rounded text-lg"
+                    className={`flex mx-auto text-white ${
+                      verified ? "bg-green-600" : "bg-red-500"
+                    } border-0 py-2 px-8 focus:outline-none hover:bg-green-600  rounded text-lg`}
                     onClick={() => setOpened(true)}
                   >
-                    {setMFADone
-                      ? "Do the MFA Please"
+                    {MFADone
+                      ? verified
+                        ? "Verified"
+                        : "Do the MFA Please"
                       : "Enable MFA for the SSI Wallet"}
                   </button>
                   <InputWrapper
@@ -270,8 +281,8 @@ export default function Home({ verified, setVerified }) {
 
                   <button
                     className="pt-4 shadow-md bg-green-500 mt-2 mb-2 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => {
-                      updateProfile();
+                    onClick={(e) => {
+                      updateProfile(e);
                       setUpdateLoading(true);
                     }}
                     loading={updateLoading}
@@ -285,8 +296,12 @@ export default function Home({ verified, setVerified }) {
                     onClose={() => setOpened(false)}
                     title="Multi Factor Authentication"
                   >
-                    {setMFADone ? (
-                      <Auth verified={verified} setVerified={setVerified} setOpened={setOpened} />
+                    {MFADone ? (
+                      <Auth
+                        verified={verified}
+                        setVerified={setVerified}
+                        setOpened={setOpened}
+                      />
                     ) : (
                       <Create
                         verified={verified}

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { create } from "ipfs-http-client";
 import { ethers } from "ethers";
-import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
+import { Button } from "@mantine/core";
 
+import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
 const dCertifyAddress = "0xC5F69dFB40f6755400F600e1c7E3d9D73801253d";
+
 let ipfs;
 try {
   ipfs = create({
@@ -84,7 +86,7 @@ const Create = ({ verified, setVerified, setMFADone, updateProfile }) => {
       })
       .then(() => {
         setTimeout(() => {
-          apiCall();
+          if (state === "image1") apiCall();
         }, 2000);
       })
       .catch((error) => console.log("error", error));
@@ -105,8 +107,8 @@ const Create = ({ verified, setVerified, setMFADone, updateProfile }) => {
       await Register.wait();
 
       console.log("Registered");
-      setMFADone(true);
-      await updateProfile();
+      // setMFADone(true);
+      await updateProfile(true);
       let link = await contract.login(account);
       console.log("ipfs link", link);
       await getIpfs("image1", link);
@@ -137,9 +139,7 @@ const Create = ({ verified, setVerified, setMFADone, updateProfile }) => {
 
     await setImages(uniqueImages);
     // setImage2(`https://ipfs.infura.io/ipfs/${images[images.length - 1].path}`);
-    setImage2(
-      `https://ipfs.infura.io/ipfs/QmPo4pk65YhPjb72S2sVTGgvjFfJxhkkExZEckFaRPWVGB`
-    );
+    // setImage2(`https://ipfs.infura.io/ipfs/QmPo4pk65YhPjb72S2sVTGgvjFfJxhkkExZEckFaRPWVGB`);
   };
   let startCamera = async () => {
     try {
@@ -182,6 +182,8 @@ const Create = ({ verified, setVerified, setMFADone, updateProfile }) => {
       .then((result) => {
         console.log(result);
         if (result.similarPercent > 0.75) {
+          window.alert("verified");
+          console.log("verified");
           setVerified(true);
         } else {
           setVerified(false);
@@ -193,10 +195,15 @@ const Create = ({ verified, setVerified, setMFADone, updateProfile }) => {
   return (
     <div>
       <video id="video" width="320" height="240" autoPlay></video>
-      <button id="start-camera" onClick={startCamera}>
+      <Button
+        className="m-2 pt-4 shadow-md bg-green-500 text-white  "
+        id="start-camera"
+        onClick={startCamera}
+      >
         Start Camera
-      </button>
-      <button
+      </Button>
+      <Button
+        className=" m-2 pt-4 shadow-md bg-green-500 text-white "
         id="click-photo"
         onClick={function () {
           let video = document.querySelector("#video");
@@ -210,31 +217,26 @@ const Create = ({ verified, setVerified, setMFADone, updateProfile }) => {
         }}
       >
         Click Photo
-      </button>
+      </Button>
       <canvas id="canvas" width="320" height="240"></canvas>
-      <button
+      <Button
+        className=" shadow-md bg-green-500  text-white"
         type="submit"
         onClick={async (e) => {
           console.log("in fetch");
           e.preventDefault();
           let video = document.querySelector("#video");
-          // A video's MediaStream object is available through its srcObject attribute
           const mediaStream = video.srcObject;
-
-          // Through the MediaStream, you can get the MediaStreamTracks with getTracks():
-          // const tracks = mediaStream.getTracks();
-
-          // Tracks are returned as an array, so if you know you only have one, you can stop it with:
-          // tracks[0].stop();
-
-          // Or stop all like so:
-          // tracks.forEach((track) => track.stop());
+          const tracks = mediaStream.getTracks();
+          tracks[0].stop();
+          tracks.forEach((track) => track.stop());
           setMFI();
         }}
       >
         Submit
-      </button>
-      <button
+      </Button>
+      <Button
+        className=" shadow-md bg-green-500  text-white"
         type="submit"
         onClick={async (e) => {
           console.log("in fetch");
@@ -243,7 +245,7 @@ const Create = ({ verified, setVerified, setMFADone, updateProfile }) => {
         }}
       >
         Verify
-      </button>
+      </Button>
     </div>
   );
 };

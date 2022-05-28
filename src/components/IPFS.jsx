@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
+
 import { create } from "ipfs-http-client";
 import { ethers } from "ethers";
-import { Viewer } from "@react-pdf-viewer/core";
-import { Modal } from "@mantine/core";
+
+import { Modal, Button } from "@mantine/core";
+
 import Auth from "./Auth";
+
 // Import the styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
-import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
+import { Viewer } from "@react-pdf-viewer/core";
 import { getFilePlugin } from "@react-pdf-viewer/get-file";
+
+import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
 const dCertifyAddress = "0xC5F69dFB40f6755400F600e1c7E3d9D73801253d";
+
 function IPFS({ verified, setVerified }) {
   const [images, setImages] = React.useState([]);
   const [opened, setOpened] = useState(false);
@@ -188,45 +194,77 @@ function IPFS({ verified, setVerified }) {
     <div className="App bg-grey-lighter">
       {ipfs && (
         <>
-          <p>Upload File using IPFS</p>
-
           <form onSubmit={onSubmitHandler}>
-            <input name="file" type="file" />
+            <label class="w-64  m-auto mt-4 mb-4 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue ">
+              <svg
+                class="w-8 h-8"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+              </svg>
+              <span class="mt-2 text-base leading-normal">Select a file</span>
+              <input type="file" class="hidden" />
+            </label>
 
-            <button type="submit">Upload File on IPFS</button>
+            <Button
+              className="hover:bg-green-600 hover:text-white  transition duration-300"
+              variant="outline"
+              color="green"
+              size="md"
+              uppercase
+              type="submit"
+            >
+              Upload File on IPFS
+            </Button>
           </form>
-          <button
-            onClick={() => {
-              addDocument(
-                `https://ipfs.infura.io/ipfs/${images[images.length - 1]?.path}`
-              );
-            }}
-          >
-            "Verify Document and Save to the Blockchain"
-          </button>
-          <button
-            onClick={() => {
-              setOpened(true);
-            }}
-          >
-            Authenticate
-          </button>
+
+          <div className="m-4">
+            <Button
+              className="hover:bg-green-600 hover:text-white  transition duration-300 mr-4"
+              variant="outline"
+              color="green"
+              size="md"
+              uppercase
+              type="submit"
+              onClick={() => {
+                setOpened(true);
+              }}
+            >
+              Authenticate
+            </Button>
+
+            <Button
+              className="hover:bg-green-600 hover:text-white  transition duration-300"
+              variant="outline"
+              color="green"
+              size="md"
+              uppercase
+              type="submit"
+              onClick={() => {
+                addDocument(
+                  `https://ipfs.infura.io/ipfs/${
+                    images[images.length - 1]?.path
+                  }`
+                );
+              }}
+            >
+              Verify Document and Save to the Blockchain
+            </Button>
+          </div>
           <Modal
             opened={opened}
             onClose={() => setOpened(false)}
             // title="Introduce yourself!"
           >
-            {!verified ? (
+           
               <Auth
                 verified={verified}
                 setVerified={setVerified}
                 setIsDoneMFA={setIsDoneMFA}
               />
-            ) : (
-              <button>
-                <a href="/home">Do the MFA Please</a>
-              </button>
-            )}
+            
           </Modal>
 
           <div

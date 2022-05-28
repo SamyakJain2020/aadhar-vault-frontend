@@ -2,18 +2,18 @@
 import { Popover } from "@headlessui/react";
 import { MenuIcon } from "@heroicons/react/outline";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-
+import logo from "./assets/logo.png";
 export default function Example() {
   return (
     <header>
       <Popover className="relative bg-black">
         <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8">
-          <div className="flex justify-start lg:w-0 lg:flex-1">
+          <div className="flex justify-start ">
             <a href="#">
               <span className="sr-only">Workflow</span>
               <img
                 className="h-8 w-auto sm:h-10"
-                src="https://tailwindui.com/img/logos/workflow-mark-purple-600-to-indigo-600.svg"
+                src={logo}
                 alt=""
               />
             </a>
@@ -35,10 +35,10 @@ export default function Example() {
               href="/home"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
-              SSI
+              Self Sovereign Identity
             </a>
             <a
-              href="/auth"
+              href="/sign"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
               SIGN Document
@@ -47,7 +47,7 @@ export default function Example() {
               href="#"
               className="text-base font-medium text-white hover:text-indigo-900"
             >
-              Verify Document
+              My Verified Documents
             </a>
           </Popover.Group>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">

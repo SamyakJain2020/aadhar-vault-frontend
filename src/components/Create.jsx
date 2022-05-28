@@ -14,7 +14,7 @@ try {
   ipfs = undefined;
 }
 
-const Create = ({ verified, setVerified , setMFADone , updateProfile }) => {
+const Create = ({ verified, setVerified, setMFADone, updateProfile }) => {
   const [images, setImages] = React.useState([]);
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
@@ -66,7 +66,7 @@ const Create = ({ verified, setVerified , setMFADone , updateProfile }) => {
     }
   };
 
-  async function getIpfs(state,link) {
+  async function getIpfs(state, link) {
     var requestOptions = {
       method: "GET",
       redirect: "follow",
@@ -77,9 +77,9 @@ const Create = ({ verified, setVerified , setMFADone , updateProfile }) => {
       .then((result) => {
         //console.log(result);
         if (state === "image1") {
-        setImage1(result);
+          setImage1(result);
         } else {
-        setImage2(result);
+          setImage2(result);
         }
       })
       .then(() => {
@@ -109,8 +109,8 @@ const Create = ({ verified, setVerified , setMFADone , updateProfile }) => {
       await updateProfile();
       let link = await contract.login(account);
       console.log("ipfs link", link);
-      await getIpfs("image1",link);
-      await getIpfs("image2",image2);
+      await getIpfs("image1", link);
+      await getIpfs("image2", image2);
     } catch (error) {
       setError(error);
     }
@@ -136,7 +136,10 @@ const Create = ({ verified, setVerified , setMFADone , updateProfile }) => {
     });
 
     await setImages(uniqueImages);
-    setImage2(`https://ipfs.infura.io/ipfs/${images[images.length - 1].path}`);
+    // setImage2(`https://ipfs.infura.io/ipfs/${images[images.length - 1].path}`);
+    setImage2(
+      `https://ipfs.infura.io/ipfs/QmPo4pk65YhPjb72S2sVTGgvjFfJxhkkExZEckFaRPWVGB`
+    );
   };
   let startCamera = async () => {
     try {
@@ -156,7 +159,7 @@ const Create = ({ verified, setVerified , setMFADone , updateProfile }) => {
     myHeaders.append("X-RapidAPI-Host", "face-verification2.p.rapidapi.com");
     myHeaders.append(
       "X-RapidAPI-Key",
-      "7ae1fbd696mshbd52fac8cea88eep1626b9jsn3354c1959552"
+      "e70f2c9198mshaac16bc3dd4f504p168ec3jsn398392c93211"
     );
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -219,15 +222,14 @@ const Create = ({ verified, setVerified , setMFADone , updateProfile }) => {
           const mediaStream = video.srcObject;
 
           // Through the MediaStream, you can get the MediaStreamTracks with getTracks():
-          const tracks = mediaStream.getTracks();
+          // const tracks = mediaStream.getTracks();
 
           // Tracks are returned as an array, so if you know you only have one, you can stop it with:
-          tracks[0].stop();
+          // tracks[0].stop();
 
           // Or stop all like so:
-          tracks.forEach((track) => track.stop());
+          // tracks.forEach((track) => track.stop());
           setMFI();
-
         }}
       >
         Submit
@@ -238,7 +240,6 @@ const Create = ({ verified, setVerified , setMFADone , updateProfile }) => {
           console.log("in fetch");
           e.preventDefault();
           apiCall();
-
         }}
       >
         Verify

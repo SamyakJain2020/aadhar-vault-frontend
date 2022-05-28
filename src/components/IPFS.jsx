@@ -185,7 +185,7 @@ function IPFS({ verified, setVerified }) {
     console.log(`https://ipfs.infura.io/ipfs/${images[index]?.path}`);
   });
   return (
-    <div className="App">
+    <div className="App bg-grey-lighter">
       {ipfs && (
         <>
           <p>Upload File using IPFS</p>
@@ -197,18 +197,19 @@ function IPFS({ verified, setVerified }) {
           </form>
           <button
             onClick={() => {
-              if (verified && isDoneMFA) {
-                addDocument(
-                  `https://ipfs.infura.io/ipfs/${
-                    images[images.length - 1]?.path
-                  }`
-                );
-              }
+              addDocument(
+                `https://ipfs.infura.io/ipfs/${images[images.length - 1]?.path}`
+              );
             }}
           >
-            {verified
-              ? "Verify Document and Save to the Blockchain"
-              : "Enable MFA for the SSI Wallet"}
+            "Verify Document and Save to the Blockchain"
+          </button>
+          <button
+            onClick={() => {
+              setOpened(true);
+            }}
+          >
+            Authenticate
           </button>
           <Modal
             opened={opened}

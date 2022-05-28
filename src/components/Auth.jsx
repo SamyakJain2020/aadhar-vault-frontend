@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { create } from "ipfs-http-client";
 import { ethers } from "ethers";
 import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
+import { Button } from "@mantine/core";
 
 const dCertifyAddress = "0xC5F69dFB40f6755400F600e1c7E3d9D73801253d";
 let ipfs;
@@ -14,17 +15,25 @@ try {
   ipfs = undefined;
 }
 
-const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
+const Auth = ({ verified, setVerified, setIsDoneMFA ,setOpened }) => {
   const [images, setImages] = React.useState([]);
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
   const [account, setAccount] = useState("");
   const [error, setError] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
     console.log(image1);
     console.log(image2);
   }, [image1, image2]);
+
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
 
   useEffect(() => {
     console.log(images);
@@ -65,7 +74,7 @@ const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
     }
   };
 
-  async function getIpfs(link) {
+  async function getIpfs(state, link) {
     var requestOptions = {
       method: "GET",
       redirect: "follow",
@@ -75,11 +84,15 @@ const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
       .then((response) => response.text())
       .then((result) => {
         //console.log(result);
-        setImage1(result);
+        if (state === "image1") {
+          setImage1(result);
+        } else {
+          setImage2(result);
+        }
       })
       .then(() => {
         setTimeout(() => {
-          apiCall();
+          if (state === "image1") apiCall();
         }, 2000);
       })
       .catch((error) => console.log("error", error));
@@ -95,8 +108,8 @@ const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
     );
     try {
       let link = await contract.login(account);
-      //console.log("ipfs link", link);
-      await getIpfs(link);
+      console.log("ipfs link", link);
+      await getIpfs("image1", link);
     } catch (error) {
       setError(error);
     }
@@ -122,6 +135,7 @@ const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
     });
 
     setImages(uniqueImages);
+    setLoading(false);
   };
   let startCamera = async () => {
     try {
@@ -141,7 +155,7 @@ const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
     myHeaders.append("X-RapidAPI-Host", "face-verification2.p.rapidapi.com");
     myHeaders.append(
       "X-RapidAPI-Key",
-      "7ae1fbd696mshbd52fac8cea88eep1626b9jsn3354c1959552"
+      "e70f2c9198mshaac16bc3dd4f504p168ec3jsn398392c93211"
     );
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -163,14 +177,19 @@ const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
-        console.log(result.data);
-        console.log(result.data.similarPercent);
-        if (result.data.similarPercent > 0.75) {
+        console.log(result?.data);
+        console.log(result.data?.similarPercent);
+        if (!result.hasError && result.data.similarPercent > 0.75) {
           console.log("verified");
+          window.alert("verified");
           setIsDoneMFA(true);
+          setLoading2(false);
           setVerified(true);
+          setOpened(false);
+          setVisible((v) => !v);
         } else {
           console.log("not verified");
+          setLoading1("inBetween");
           setVerified(false);
           setIsDoneMFA(false);
         }
@@ -178,14 +197,21 @@ const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
       .catch((error) => console.log("error", error));
   };
 
+
   return (
-    <div>
+    <div className=" m-auto w-full ">
       <video id="video" width="320" height="240" autoPlay></video>
-      <button id="start-camera" onClick={startCamera}>
+      <Button
+        className="m-2 pt-4 shadow-md bg-green-500 text-white  "
+        id="start-camera"
+        onClick={startCamera}
+      >
         Start Camera
-      </button>
-      <button
+      </Button>
+      <Button
+        className=" m-2 pt-4 shadow-md bg-green-500 text-white "
         id="click-photo"
+        loading={loading}
         onClick={function () {
           let video = document.querySelector("#video");
           let canvas = document.querySelector("#canvas");
@@ -195,36 +221,68 @@ const Auth = ({ verified, setVerified ,setIsDoneMFA }) => {
           //get the image data in base64
 
           let image_data_url = canvas.toDataURL("image/png");
-
+          setLoading(true);
           setImage2(image_data_url);
+          // getIpfs("image2","https://ipfs.infura.io/ipfs/QmPo4pk65YhPjb72S2sVTGgvjFfJxhkkExZEckFaRPWVGB");
           onSubmitHandler(image_data_url);
         }}
       >
         Click Photo
-      </button>
+      </Button>
       <canvas id="canvas" width="320" height="240"></canvas>
-      <button
-        type="submit"
-        onClick={async (e) => {
-          console.log("in fetch");
-          e.preventDefault();
-          let video = document.querySelector("#video");
-          // A video's MediaStream object is available through its srcObject attribute
-          const mediaStream = video.srcObject;
+      {loading1 !== "inBetween" && (
+        <Button
+          className=" shadow-md bg-green-500  text-white"
+          type="submit"
+          loading={loading1 === "inBetween" ? false : loading1}
+          onClick={async (e) => {
+            console.log("in fetch");
+            e.preventDefault();
+            let video = document.querySelector("#video");
+            // A video's MediaStream object is available through its srcObject attribute
+            const mediaStream = video.srcObject;
 
-          // Through the MediaStream, you can get the MediaStreamTracks with getTracks():
-          const tracks = mediaStream.getTracks();
+            // Through the MediaStream, you can get the MediaStreamTracks with getTracks():
+            const tracks = mediaStream.getTracks();
+            // Tracks are returned as an array, so if you know you only have one, you can stop it with:
+            tracks[0].stop();
+            // Or stop all like so:
+            tracks.forEach((track) => track.stop());
+            setLoading1(true);
+            setVisible((v) => !v);
+            getMFI();
+          }}
+        >
+          Submit
+        </Button>
+      )}
+    {loading1 === "inBetween" && (
+        <Button
+          className=" shadow-md bg-green-500  text-white"
+          type="submit"
+          loading={loading1 === "inBetween" ? false : loading1}
+          onClick={async (e) => {
+            console.log("in fetch");
+            e.preventDefault();
+            let video = document.querySelector("#video");
+            // A video's MediaStream object is available through its srcObject attribute
+            const mediaStream = video.srcObject;
 
-          // Tracks are returned as an array, so if you know you only have one, you can stop it with:
-          tracks[0].stop();
+            // Through the MediaStream, you can get the MediaStreamTracks with getTracks():
+            const tracks = mediaStream.getTracks();
+            // Tracks are returned as an array, so if you know you only have one, you can stop it with:
+            tracks[0].stop();
+            // Or stop all like so:
+            tracks.forEach((track) => track.stop());
+            setLoading1(true);
+            setVisible((v) => !v);
+            getMFI();
+          }}
+        >
+          Confirm Submit
+        </Button>
+      )}
 
-          // Or stop all like so:
-          tracks.forEach((track) => track.stop());
-          getMFI();
-        }}
-      >
-        Submit
-      </button>
     </div>
   );
 };

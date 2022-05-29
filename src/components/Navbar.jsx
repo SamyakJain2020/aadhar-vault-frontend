@@ -50,7 +50,7 @@ export default function Example() {
               My Verified Documenets
             </a>
              <a
-              href="/my-docs"
+              href="/verify"
               className="text-base font-medium text-white  hover:underline underline-offset-4 transition duration-1000"
             >
               Verify Document

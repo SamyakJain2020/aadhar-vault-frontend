@@ -36,7 +36,7 @@ export default function Home({ verified, setVerified }) {
     const data = await selfId.get("basicProfile", id);
     if (data) {
       setProfile(data);
-      if (data.MFADone) setMFADone(data.MFADone);
+      if (data.MfaDone || data.MFADone) setMFADone(data.MFADone);
       console.log("data: ", data);
     } else {
       setShowGreeting(true);
@@ -54,6 +54,7 @@ export default function Home({ verified, setVerified }) {
     // }
     if (!selfId) {
       await connect();
+      console.log("connected");
     }
     const user = { ...profile };
     if (twitter) user.twitter = twitter;
@@ -61,7 +62,7 @@ export default function Home({ verified, setVerified }) {
     if (name) user.name = name;
     if (ProfileImage) user.profileImage = ProfileImage;
     // eslint-disable-next-line eqeqeq
-    if (mfa != 0) user.MFADone = mfa;
+    if (mfa != 0) user.MfaDone = true;
 
     await selfIdRef.current.set("basicProfile", user);
     setLocalProfileData();
@@ -69,7 +70,7 @@ export default function Home({ verified, setVerified }) {
     // form.reset();
   }
   useEffect(() => {
-    console.log("MFADone", MFADone);
+    // console.log("MFADone", MFADone);
   }, [MFADone]);
 
   async function readProfile() {

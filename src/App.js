@@ -7,6 +7,7 @@ import Auth from "./components/Auth";
 import IPFS from "./components/IPFS";
 import Create from "./components/Create";
 import Documents from "./components/Documents";
+import Verify from "./components/Verify";
 import "./App.css";
 function App() {
   const [verfied, setVerified] = useState();
@@ -38,7 +39,14 @@ function App() {
               <Documents setVerified={setVerified} verified={verfied}></Documents>
             }
           />
+        <Route
+            path="/verify"
+            element={
+              <Verify/>
+            }
+          />
         </Routes>
+        
       </Router>
     </div>
   );

@@ -14,10 +14,14 @@ function App() {
 
   return (
     <div>
+      <div></div>
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/sign" element={<IPFS verified={verfied} setVerified={setVerified}/>} />
+          <Route
+            path="/sign"
+            element={<IPFS verified={verfied} setVerified={setVerified} />}
+          />
           <Route
             path="/home"
             element={<Home verified={verfied} setVerified={setVerified} />}
@@ -32,21 +36,18 @@ function App() {
               <Create setVerified={setVerified} verified={verfied}></Create>
             }
           />
-          
+
           <Route
             path="/my-docs"
             element={
-              <Documents setVerified={setVerified} verified={verfied}></Documents>
+              <Documents
+                setVerified={setVerified}
+                verified={verfied}
+              ></Documents>
             }
           />
-        <Route
-            path="/verify"
-            element={
-              <Verify/>
-            }
-          />
+          <Route path="/verify" element={<Verify />} />
         </Routes>
-        
       </Router>
     </div>
   );

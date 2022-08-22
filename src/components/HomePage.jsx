@@ -188,7 +188,7 @@ export default function HomePage() {
               <div className="absolute inset-0">
                 <img
                   className="h-full w-full object-cover"
-                  src="https://institute.global/sites/default/files/styles/teaser_large/public/2021-09/GettyImages-713786977.jpg?itok=jodsJ0x5"
+                  src="https://myaadhaar.uidai.gov.in/static/media/Blue_BackGround_3.025d7a67.jpg"
                   alt="People working on laptops"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-800 to-indigo-700 mix-blend-multiply" />
@@ -199,22 +199,22 @@ export default function HomePage() {
                   <span className="block text-indigo-200">Identity</span>
                 </h1>
                 <p className="mt-6 max-w-lg mx-auto text-center text-xl text-indigo-200 sm:max-w-3xl">
-                  BLOCKCHAIN BASED PUBLIC PKI PLATFORM WITH ZERO TRUST
-                  AUTHENTICATION FEATURES
+                  An Inter Agency Government Service for the Authentication of
+                  Aadhaar
                 </p>
                 <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
                   <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5">
                     <a
-                      href="/home"
+                      href="/addAgency"
                       className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 sm:px-8"
                     >
-                      Authenticate
+                      Register Your Agency Now!!
                     </a>
                     <a
                       href="#"
                       className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-500 bg-opacity-60 hover:bg-opacity-70 sm:px-8"
                     >
-                      Sign Document
+                      Aadhar Registration
                     </a>
                   </div>
                 </div>
@@ -246,11 +246,8 @@ export default function HomePage() {
                       Stay on top of customer support
                     </h2>
                     <p className="mt-4 text-lg text-gray-500">
-                      Semper curabitur ullamcorper posuere nunc sed. Ornare
-                      iaculis bibendum malesuada faucibus lacinia porttitor.
-                      Pulvinar laoreet sagittis viverra duis. In venenatis sem
-                      arcu pretium pharetra at. Lectus viverra dui tellus ornare
-                      pharetra.
+                      MyAadhaar is a platform that enables you to manage your
+                      Aadhaar identity.
                     </p>
                     <div className="mt-6">
                       <a

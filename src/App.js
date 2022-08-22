@@ -5,9 +5,12 @@ import Home from "./components/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Auth from "./components/Auth";
 import IPFS from "./components/IPFS";
+import Agency from "./components/Agency";
 import Create from "./components/Create";
 import Documents from "./components/Documents";
 import Verify from "./components/Verify";
+import AllAgencies from "./components/AllAgencies";
+import AadharHolder from "./components/AadharHolder";
 import "./App.css";
 function App() {
   const [verfied, setVerified] = useState();
@@ -18,6 +21,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/addAgency" element={<Agency />} />
+
           <Route
             path="/sign"
             element={<IPFS verified={verfied} setVerified={setVerified} />}
@@ -47,6 +52,8 @@ function App() {
             }
           />
           <Route path="/verify" element={<Verify />} />
+          <Route path="/allAgencies" element={<AllAgencies />} />
+          <Route path="/addAadharUser" element={<AadharHolder />} />
         </Routes>
       </Router>
     </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { create } from "ipfs-http-client";
 import { ethers } from "ethers";
-import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
+// import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
 import { Button } from "@mantine/core";
 // https://rapidapi.com/PresentID/api/face-verification2/
 const dCertifyAddress = "0xC5F69dFB40f6755400F600e1c7E3d9D73801253d";
@@ -103,7 +103,7 @@ const Auth = ({ verified, setVerified, setIsDoneMFA ,setOpened }) => {
     let signer = await provider.getSigner();
     let contract = new ethers.Contract(
       dCertifyAddress,
-      dCertifyABI.abi,
+      // dCertifyABI.abi,
       signer
     );
     try {

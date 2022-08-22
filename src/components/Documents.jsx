@@ -9,8 +9,8 @@ import { thumbnailPlugin } from "@react-pdf-viewer/thumbnail";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/thumbnail/lib/styles/index.css";
 
-import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
-
+// import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
+let dCertifyABI
 const dCertifyAddress = "0xC5F69dFB40f6755400F600e1c7E3d9D73801253d";
 
 const Documents = () => {

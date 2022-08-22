@@ -3,7 +3,8 @@ import { create } from "ipfs-http-client";
 import { ethers } from "ethers";
 import { Button } from "@mantine/core";
 
-import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
+// import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
+let dCertifyABI
 const dCertifyAddress = "0xC5F69dFB40f6755400F600e1c7E3d9D73801253d";
 
 let ipfs;

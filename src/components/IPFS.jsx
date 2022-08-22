@@ -12,7 +12,8 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import { Viewer } from "@react-pdf-viewer/core";
 import { getFilePlugin } from "@react-pdf-viewer/get-file";
 
-import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
+// import dCertifyABI from "../artifacts/contracts/Greeter.sol/DCertify.json";
+let dCertifyABI 
 const dCertifyAddress = "0xC5F69dFB40f6755400F600e1c7E3d9D73801253d";
 
 function IPFS({ verified, setVerified }) {

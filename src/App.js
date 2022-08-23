@@ -11,6 +11,8 @@ import Documents from "./components/Documents";
 import Verify from "./components/Verify";
 import AllAgencies from "./components/AllAgencies";
 import AadharHolder from "./components/AadharHolder";
+import MyAadhar from "./components/MyAadhar";
+import MyAgency from "./components/MyAgency";
 import "./App.css";
 function App() {
   const [verfied, setVerified] = useState();
@@ -54,6 +56,8 @@ function App() {
           <Route path="/verify" element={<Verify />} />
           <Route path="/allAgencies" element={<AllAgencies />} />
           <Route path="/addAadharUser" element={<AadharHolder />} />
+          <Route path="/myAadhar" element={<MyAadhar />} />
+          <Route path="/myAgency" element={<MyAgency />} />
         </Routes>
       </Router>
     </div>

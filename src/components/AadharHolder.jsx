@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { Checkbox } from "@mantine/core";
-
+import { Select } from "@mantine/core";
 import dataVaultAbi from "../contracts/DataVault.json";
 const dataVaultAddress = "0x24079D400bE84984ABe17E587B650F247e2df2A4";
 
 function AadharHolder() {
   const [account, setAccount] = useState("");
   const [error, setError] = useState(false);
-  const [orgName, setOrgName] = useState("");
-  const [permi1, setPermi1] = useState(false);
-  const [permi2, setPermi2] = useState(false);
-  const [permi3, setPermi3] = useState(false);
+  const [Name, setName] = useState("");
+  const [signature, setSignature] = useState("");
+  const [Agencies, setAgencies] = useState([]);
+  const [Data, setData] = useState([]);
+  const [AgencyID, setAgencyID] = useState(null);
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
@@ -25,8 +25,33 @@ function AadharHolder() {
       container.classList.remove("right-panel-active");
     });
     checkWalletConnected();
+    getAgency();
   }, []);
 
+  let getAgency = async () => {
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    let signer = await provider.getSigner();
+    let contract = new ethers.Contract(
+      dataVaultAddress,
+      dataVaultAbi.abi,
+      signer
+    );
+    try {
+      let Agencies = await contract.getAllAgencyData();
+      setAgencies(Agencies);
+      setData(
+        Agencies[1]?.filter((agency, index) => {
+          return {
+            value: agency.id,
+            label: agency.name,
+          };
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    }
+  };
   const checkWalletConnected = async () => {
     const { ethereum } = window;
 
@@ -53,89 +78,110 @@ function AadharHolder() {
       console.log("Create a Polygon Matic Account");
     }
   };
-//   let handleRegister = async () => {
-//     console.log("Registering");
-//     let provider = new ethers.providers.Web3Provider(window.ethereum);
-//     let signer = await provider.getSigner();
-//     let contract = new ethers.Contract(
-//       dataVaultAddress,
-//       dataVaultAbi.abi,
-//       signer
-//     );
-//     try {
-//       let RegisterAgency = await contract.RegisterAgency(orgName, [
-//         permi1 ? 1 : 0,
-//         permi2 ? 1 : 0,
-//         permi3 ? 1 : 0,
-//       ]);
-//       await RegisterAgency.wait();
+  let handleAadharRegister = async () => {
+    console.log("Registering");
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    let signer = await provider.getSigner();
+    let contract = new ethers.Contract(
+      dataVaultAddress,
+      dataVaultAbi.abi,
+      signer
+    );
+    try {
+      let RegisterAgency = await contract.RegisterNewAadhaarHolder(
+        Name,
+        signature
+      );
+      await RegisterAgency.wait();
 
-//       console.log("RegisterAgency Registered");
-//     } catch (error) {
-//       setError(error);
-//     }
-//   };
+      console.log("RegisterAgency Registered");
+    } catch (error) {
+      setError(error);
+    }
+  };
+  let handleAadharRegisterInAgency = async () => {
+    console.log("Registering");
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    let signer = await provider.getSigner();
+    let contract = new ethers.Contract(
+      dataVaultAddress,
+      dataVaultAbi.abi,
+      signer
+    );
+    try {
+      let RegisterAgency = await contract.RegisterNewAadhaarHolder(
+        Name,
+        signature
+      );
+      await RegisterAgency.wait();
+
+      console.log("RegisterAgency Registered");
+    } catch (error) {
+      setError(error);
+    }
+  };
   return (
-    <div className="Holder">
-      <div class="container" id="container">
-        <div class="form-container sign-up-container">
+    <div className="Holder text-2xl">
+      <div className="container" id="container">
+        <div className="form-container sign-up-container">
           <form action="#">
-            <h1>Create Account</h1>
-            <div class="social-container">
-              <a href="#" class="social">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="social">
-                <i class="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" class="social">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-            <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <button>Sign Up</button>
+            <h1>Create Aadhar Account</h1>
+            <span>or use your Biometric Data for registration</span>
+            <input
+              type="text"
+              placeholder="Name"
+              onChange={(e) => setName(e.target.value)}
+              value={Name}
+            />
+            <input
+              type="password"
+              placeholder="Signature"
+              onChange={(e) => setSignature(e.target.value)}
+              value={signature}
+            />
+            <button className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 border-none">
+              Add Aadhar
+            </button>
           </form>
         </div>
-        <div class="form-container sign-in-container">
+        <div className="form-container sign-in-container">
           <form action="#">
-            <h1>Sign in</h1>
-            <div class="social-container">
-              <a href="#" class="social">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="social">
-                <i class="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" class="social">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </div>
+            <h1>Add Aahar to Vault</h1>
             <span>or use your account</span>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+
+            <Select
+              className="p-4"
+              label="The Agency You Want to be Added"
+              placeholder="Pick one"
+              data={Data}
+              value={AgencyID}
+              onChange={(e) => setAgencyID(e.value)}
+            />
+            <input type="text" placeholder="SSI Address" />
+            <button
+              className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 border-none"
+              onClick={handleAadharRegisterInAgency}
+            >
+              Add Aadhar
+            </button>
           </form>
         </div>
-        <div class="overlay-container">
-          <div class="overlay">
-            <div class="overlay-panel overlay-left">
-              <h1>Welcome Back!</h1>
+        <div className="overlay-container">
+          <div className="overlay bg-gradient-to-l from-cyan-900 via-neutral-900 to-purple-800">
+            <div className="overlay-panel overlay-left">
+              <h1>Want To Add to a Govermental Agency!</h1>
               <p>
-                To keep connected with us please login with your personal info
+                {/* To keep connected with  please login with your personal info */}
               </p>
-              <button class="ghost" id="signIn">
-                Sign In
+              <button className="ghost" id="signIn">
+                Join With us
               </button>
             </div>
-            <div class="overlay-panel overlay-right">
+            <div className="overlay-panel overlay-right">
               <h1>Hello, Friend!</h1>
               <p>Enter your personal details and start journey with us</p>
-              <button class="ghost" id="signUp">
-                Sign Up
+              <button className="ghost" id="signUp">
+                Register New Aadhar
               </button>
             </div>
           </div>

@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
+
 import dataVaultAbi from "../contracts/DataVault.json";
 const dataVaultAddress = "0x24079D400bE84984ABe17E587B650F247e2df2A4";
 function Agency() {
@@ -80,10 +88,7 @@ function Agency() {
         if (index === 0) return;
         return (
           <>
-            <div
-              key={index}
-              className=" rounded overflow-hidden shadow-lg"
-            >
+            <div key={index} className=" rounded overflow-hidden shadow-lg">
               <div className="px-6 py-4">
                 <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
                   ID: {Number(Agencies[0][index])}
@@ -132,7 +137,7 @@ function Agency() {
                 // onClick={() => handleAgency(agency, true)}
               >
                 <a
-                  href="/myAgency"
+                  href={`/myAgency/${Number(Agencies[0][index])}`}
                   className="text-base font-medium text-white hover:underline underline-offset-4 transition duration-1000 "
                 >
                   Agency Dashboard

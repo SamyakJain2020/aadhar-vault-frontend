@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { Checkbox } from "@mantine/core";
-import { Modal, Button, Group } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import dataVaultAbi from "../contracts/DataVault.json";
 const dataVaultAddress = "0x24079D400bE84984ABe17E587B650F247e2df2A4";
 

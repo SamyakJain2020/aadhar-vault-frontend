@@ -2,7 +2,12 @@
 import { useState, useEffect } from "react";
 import HomePage from "./components/HomePage";
 import Home from "./components/Home";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Switch,
+} from "react-router-dom";
 import Auth from "./components/Auth";
 import IPFS from "./components/IPFS";
 import Agency from "./components/Agency";
@@ -57,7 +62,7 @@ function App() {
           <Route path="/allAgencies" element={<AllAgencies />} />
           <Route path="/addAadharUser" element={<AadharHolder />} />
           <Route path="/myAadhar" element={<MyAadhar />} />
-          <Route path="/myAgency" element={<MyAgency />} />
+          <Route path="/myAgency/:id" element={<MyAgency />} />
         </Routes>
       </Router>
     </div>

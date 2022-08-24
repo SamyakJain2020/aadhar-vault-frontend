@@ -47,11 +47,12 @@ function Agency() {
       signer
     );
     try {
-      let Aaproval = await contract.AaproveAgency(id, status);
+      let Aaproval = await contract.ApproveAgency(id, status);
       await Aaproval.wait();
 
       console.log("Aaproval DONE");
     } catch (error) {
+      console.log(error);
       setError(error);
     }
   };
@@ -74,57 +75,71 @@ function Agency() {
     }
   };
   return (
-    <div className=" px-5 py-24 mx-auto flex flex-wrap">
+    <div className=" p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
       {Agencies[1]?.map((agency, index) => {
         if (index === 0) return;
         return (
-          <div
-            key={index}
-            className=" w-1/3 bg-gray-100 bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden text-center relative"
-          >
-            <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
-              ID: {Number(Agencies[0][index])}
-            </h2>
-            <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
-              {agency}
-            </h1>
-            <p className="leading-relaxed mb-3">Permissions</p>
-            {Agencies[3][index].map((permission) => {
-              return (
-                <div>
-                  <p className="leading-relaxed mb-3">{Number(permission)}</p>
-                </div>
-              );
-            })}
-            <p className="leading-relaxed mb-3">Status</p>
-            <p>{`${Agencies[2][index]}`}</p>
-            <p className="leading-relaxed mb-3">Admins</p>
-            {Agencies[4][index].map((Admin) => {
-              return (
-                <div>
-                  <p className="leading-relaxed mb-3">{Admin}</p>
-                </div>
-              );
-            })}
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              onClick={() => handleAgency(agency, true)}
+          <>
+            <div
+              key={index}
+              className=" rounded overflow-hidden shadow-lg"
             >
-              {Agencies[2][index] !== true ? `Approve` : `Remove Agency`}
-            </button>
-
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              // onClick={() => handleAgency(agency, true)}
-            >
-              <a
-                href="/myAgency"
-                className="text-base font-medium text-white hover:underline underline-offset-4 transition duration-1000 "
+              <div className="px-6 py-4">
+                <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
+                  ID: {Number(Agencies[0][index])}
+                </h2>
+                <div className="font-bold text-xl mb-2"> Name:{agency}</div>
+                <p className="text-gray-700 text-base">Permissions</p>
+                {Agencies[3][index].map((permission, i) => {
+                  return (
+                    <div>
+                      <p className="leading-relaxed mb-3">
+                        {i === 0
+                          ? "SSI Address: "
+                          : i === 1
+                          ? "Name: "
+                          : "Aadhar Signature: "}
+                        {Number(permission) === 1 ? "Granted" : "Denied"}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+              <p>{`Status: ${Agencies[2][index]}`}</p>
+              <p className="leading-relaxed mb-3">Admins</p>
+              <div className="px-6 pt-4 pb-2">
+                {Agencies[4][index].map((Admin) => {
+                  return (
+                    <div>
+                      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                        {`# ${Admin.substring(0, 8)}`}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                onClick={() =>
+                  handleAgency(Agencies[0][index], !Agencies[2][index])
+                }
               >
-                Agency Dashboard
-              </a>
-            </button>
-          </div>
+                {Agencies[2][index] !== true ? `Approve` : `Remove Agency`}
+              </button>
+
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                // onClick={() => handleAgency(agency, true)}
+              >
+                <a
+                  href="/myAgency"
+                  className="text-base font-medium text-white hover:underline underline-offset-4 transition duration-1000 "
+                >
+                  Agency Dashboard
+                </a>
+              </button>
+            </div>
+          </>
         );
       })}
     </div>

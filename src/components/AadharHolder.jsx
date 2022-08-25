@@ -4,8 +4,8 @@ import { Select } from "@mantine/core";
 import { Modal } from "@mantine/core";
 
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x24079D400bE84984ABe17E587B650F247e2df2A4";
-
+const dataVaultAddress = "0x9AC6537422aB056B0A45A0EE1743e9d0659DfC50";
+// giveAadhaar
 function AadharHolder() {
   const [account, setAccount] = useState("");
   const [error, setError] = useState(false);
@@ -18,6 +18,7 @@ function AadharHolder() {
   const [openedSuccess, setOpenedSuccess] = useState(false);
   const [openedFailure, setOpenedFailure] = useState(false);
   const [Loading, setLoading] = useState(false);
+  const [Aadhars, setAadhars] = useState([]);
   const [Loading1, setLoading1] = useState(false);
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
@@ -33,6 +34,7 @@ function AadharHolder() {
     });
     checkWalletConnected();
     getAgency();
+    giveAadhaar();
   }, []);
 
   let getAgency = async () => {
@@ -58,6 +60,25 @@ function AadharHolder() {
       setError(error);
     }
   };
+
+  let giveAadhaar = async () => {
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    let signer = await provider.getSigner();
+    let contract = new ethers.Contract(
+      dataVaultAddress,
+      dataVaultAbi.abi,
+      signer
+    );
+    try {
+      let A = await contract.giveAadhaar();
+      setAadhars(A);
+      console.log(A);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    }
+  };
+
   const checkWalletConnected = async () => {
     const { ethereum } = window;
 
@@ -87,6 +108,18 @@ function AadharHolder() {
   let handleAadharRegister = async () => {
     console.log("Registering");
     setLoading(true);
+
+    //check if signature is present in Aadhars array
+    let found = Aadhars.find((aadhar) => {
+      return aadhar === signature;
+    }) !== undefined;
+    if (found) {
+      console.log("Duplicate Found")
+      setLoading(false);
+      setOpenedFailure(true);
+      return;
+    }
+
     let provider = new ethers.providers.Web3Provider(window.ethereum);
     let signer = await provider.getSigner();
     let contract = new ethers.Contract(
@@ -139,7 +172,7 @@ function AadharHolder() {
       <div className="container" id="container">
         <div className="form-container sign-up-container">
           <div className="form" action="#">
-            <h1>Create Aadhar Account</h1>
+            <h1 className="text-2xl ">Create Aadhar Account</h1>
             <span>or use your Biometric Data for registration</span>
             <input
               type="text"
@@ -148,7 +181,7 @@ function AadharHolder() {
               value={Name}
             />
             <input
-              type="password"
+              type="text"
               placeholder="Signature"
               onChange={(e) => {
                 let x = e.target.value;

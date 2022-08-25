@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x24079D400bE84984ABe17E587B650F247e2df2A4";
+const dataVaultAddress = "0x9AC6537422aB056B0A45A0EE1743e9d0659DfC50";
 function Agency() {
   const [account, setAccount] = useState("");
   const [error, setError] = useState(false);
@@ -83,36 +83,63 @@ function Agency() {
     }
   };
   return (
-    <div className=" p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+    <div className=" p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 text-center">
       {Agencies[1]?.map((agency, index) => {
         if (index === 0) return;
         return (
           <>
-            <div key={index} className=" rounded overflow-hidden shadow-lg">
+            <div
+              key={index}
+              className=" rounded overflow-hidden shadow-lg ring ring-pink-500 ring-offset-2 ring-offset-pink-100"
+            >
               <div className="px-6 py-4">
                 <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
                   ID: {Number(Agencies[0][index])}
                 </h2>
                 <div className="font-bold text-xl mb-2"> Name:{agency}</div>
-                <p className="text-gray-700 text-base">Permissions</p>
+                <p className="text-gray-700 text-base font-bold">Permissions</p>
                 {Agencies[3][index].map((permission, i) => {
                   return (
-                    <div>
-                      <p className="leading-relaxed mb-3">
+                    <div className="leading-relaxed mb-3">
+                      <p>
                         {i === 0
                           ? "SSI Address: "
                           : i === 1
                           ? "Name: "
                           : "Aadhar Signature: "}
-                        {Number(permission) === 1 ? "Granted" : "Denied"}
+                        {Number(permission) === 1 ? (
+                          <span class="px-2  m-2 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                            {" "}
+                            Granted{" "}
+                          </span>
+                        ) : (
+                          <span class="px-2  m-2 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+                            {" "}
+                            Revoked{" "}
+                          </span>
+                        )}
                       </p>
+                     
                     </div>
                   );
                 })}
               </div>
-              <p>{`Status: ${Agencies[2][index]}`}</p>
-              <p className="leading-relaxed mb-3">Admins</p>
-              <div className="px-6 pt-4 pb-2">
+              <p>
+                {`Status:`}
+                {Agencies[2][index] ? (
+                  <span class="px-2  m-2 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                    {" "}
+                    Approved{" "}
+                  </span>
+                ) : (
+                  <span class="px-2  font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full">
+                    {" "}
+                    Pending{" "}
+                  </span>
+                )}
+              </p>
+              <p className="leading-relaxed mb-3 font-bold">Admins</p>
+              <div className="px-3  pb-2">
                 {Agencies[4][index].map((Admin) => {
                   return (
                     <div>
@@ -133,7 +160,7 @@ function Agency() {
               </button>
 
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-blue-500 ml-5 mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 // onClick={() => handleAgency(agency, true)}
               >
                 <a

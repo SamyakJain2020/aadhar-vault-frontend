@@ -215,18 +215,19 @@ export default function HomePage() {
                   </div>
                   <div className="mt-6">
                     <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                      Blockhain
+                      Blockchain Technology
                     </h2>
                     <p className="mt-4 text-lg text-gray-500">
-                      MyAadhaar is a platform that enables you to manage your
-                      Aadhaar identity.
+                      Blockchain is a distributed ledger that is a record of all
+                      the actions and events that have happened in a system over
+                      time.
                     </p>
                     <div className="mt-6">
                       <a
                         href="/addAgency"
                         className="inline-flex bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white hover:from-purple-700 hover:to-indigo-700"
                       >
-                        Get started
+                        Let's Get Started
                       </a>
                     </div>
                   </div>
@@ -282,14 +283,16 @@ export default function HomePage() {
                   </div>
                   <div className="mt-6">
                     <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                      Aadhar
+                      Self Sovreiegn Identity SSI
                     </h2>
                     <p className="mt-4 text-lg text-gray-500">
-                      Semper curabitur ullamcorper posuere nunc sed. Ornare
-                      iaculis bibendum malesuada faucibus lacinia porttitor.
-                      Pulvinar laoreet sagittis viverra duis. In venenatis sem
-                      arcu pretium pharetra at. Lectus viverra dui tellus ornare
-                      pharetra.
+                      MyAadhaar is a platform that enables you to manage your
+                      Aadhaar identity.Each new block, In the Blockchain
+                      connects to all the blocks before it in a cryptographic
+                      chain in such a way that it's nearly impossible to tamper
+                      with. All transactions within the blocks are validated and
+                      agreed upon by a consensus mechanism, ensuring that each
+                      transaction is true and correct.
                     </p>
                     <div className="mt-6">
                       <a
@@ -306,7 +309,7 @@ export default function HomePage() {
                 <div className="pr-4 -ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
                   <img
                     className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src="https://tailwindui.com/img/component-images/inbox-app-screenshot-2.jpg"
+                    src="https://d3lkc3n5th01x7.cloudfront.net/wp-content/uploads/2022/03/23221012/Self-Sovereign-Identity.png"
                     alt="Customer profile user interface"
                   />
                 </div>

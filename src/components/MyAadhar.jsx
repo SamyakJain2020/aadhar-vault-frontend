@@ -8,7 +8,7 @@ import { Checkbox } from "@mantine/core";
 import Auth from "./Auth";
 import Create from "./Create";
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x24079D400bE84984ABe17E587B650F247e2df2A4";
+const dataVaultAddress = "0x9AC6537422aB056B0A45A0EE1743e9d0659DfC50";
 
 export default function Home({ verified, setVerified }) {
   const [bio, setBio] = useState("");

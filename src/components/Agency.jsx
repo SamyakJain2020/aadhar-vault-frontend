@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { Checkbox } from "@mantine/core";
 import { Modal } from "@mantine/core";
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x24079D400bE84984ABe17E587B650F247e2df2A4";
+const dataVaultAddress = "0x9AC6537422aB056B0A45A0EE1743e9d0659DfC50";
 
 function Agency() {
   const [account, setAccount] = useState("");
@@ -15,11 +15,31 @@ function Agency() {
   const [openedSuccess, setOpenedSuccess] = useState(false);
   const [openedFailure, setOpenedFailure] = useState(false);
   const [Loading, setLoading] = useState(false);
+  const [message, setMessage] = useState();
+  const [Agencies, setAgencies] = useState([]);
 
   useEffect(() => {
     checkWalletConnected();
+    getAgency();
   }, []);
-
+  let getAgency = async () => {
+    console.log("Finding ");
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    let signer = await provider.getSigner();
+    let contract = new ethers.Contract(
+      dataVaultAddress,
+      dataVaultAbi.abi,
+      signer
+    );
+    try {
+      let Agencies = await contract.getAllAgencyData();
+      //   await Agencies.wait();
+      setAgencies(Agencies);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    }
+  };
   const checkWalletConnected = async () => {
     const { ethereum } = window;
 
@@ -47,6 +67,19 @@ function Agency() {
     }
   };
   let handleRegister = async () => {
+    if (orgName === "") return;
+    // Agencies[1]
+    // find if orgName is present in the list Agencies[1]
+    let found = false;
+    console.log(Agencies[1]);
+    found = Agencies[1].find((element) => {
+      return element === orgName;
+    });
+    if (found) {
+      setMessage(
+        `Organization already registered with us (with this ${account} reference Number)`
+      );
+    }
     console.log("Registering");
     setLoading(true);
     let provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -93,7 +126,7 @@ function Agency() {
                 <div className="relative mb-4">
                   <label
                     htmlFor="name"
-                    className="leading-7 text-sm text-gray-600"
+                    className="leading-7 text-xl text-gray-600"
                   >
                     Name of Organisation
                   </label>
@@ -106,6 +139,9 @@ function Agency() {
                     value={orgName}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
+                  {message ? (
+                    <div className="text-red-500 text-sm">{message}</div>
+                  ) : null}
                   <Checkbox
                     label="Permission for ssi Address Access"
                     checked={permi1}
@@ -150,7 +186,7 @@ function Agency() {
                     />
                   )}
                   <span className="ml-3">
-                    {Loading ? "Executing" : "Sign Up"}
+                    {Loading ? "Executing" : "Register Your Agency with us"}
                   </span>
                 </button>
                 <Modal

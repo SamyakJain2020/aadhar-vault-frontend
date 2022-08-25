@@ -4,18 +4,18 @@ import { Checkbox } from "@mantine/core";
 import { useParams } from "react-router-dom";
 
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x24079D400bE84984ABe17E587B650F247e2df2A4";
+const dataVaultAddress = "0x9AC6537422aB056B0A45A0EE1743e9d0659DfC50";
 
 function MyAgency() {
   const [account, setAccount] = useState("");
   const [Agencies, setAgencies] = useState([]);
   const [Id, setId] = useState(0);
-  const { id } = useParams();
-  setId(id);
-  console.log(id);
+  // const { id } = useParams();
+  // setId(id);
+  // console.log(id);
   useEffect(() => {
     checkWalletConnected();
-    getAgency();
+    // getAgency();
   }, []);
 
   const checkWalletConnected = async () => {
@@ -44,45 +44,25 @@ function MyAgency() {
       console.log("Create a Polygon Matic Account");
     }
   };
-  let getAgency = async () => {
-    console.log("Finding ");
-    let provider = new ethers.providers.Web3Provider(window.ethereum);
-    let signer = await provider.getSigner();
-    let contract = new ethers.Contract(
-      dataVaultAddress,
-      dataVaultAbi.abi,
-      signer
-    );
-    try {
-      let Agencies = await contract.getAllAgencyData();
-      //   await Agencies.wait();
-      setAgencies(Agencies);
-    } catch (error) {
-      console.log(error);
-      // setError(error);
-    }
-    // let handleRegister = async () => {
-    //   console.log("Registering");
-    //   let provider = new ethers.providers.Web3Provider(window.ethereum);
-    //   let signer = await provider.getSigner();
-    //   let contract = new ethers.Contract(
-    //     dataVaultAddress,
-    //     dataVaultAbi.abi,
-    //     signer
-    //   );
-    //   try {
-    //     let RegisterAgency = await contract.RegisterAgency(orgName, [
-    //       permi1 ? 1 : 0,
-    //       permi2 ? 1 : 0,
-    //       permi3 ? 1 : 0,
-    //     ]);
-    //     await RegisterAgency.wait();
+  // let getAgency = async () => {
+  //   console.log("Finding ");
+  //   let provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   let signer = await provider.getSigner();
+  //   let contract = new ethers.Contract(
+  //     dataVaultAddress,
+  //     dataVaultAbi.abi,
+  //     signer
+  //   );
+  //   try {
+  //     let Agencies = await contract.getAllAgencyData();
+  //     //   await Agencies.wait();
+  //     setAgencies(Agencies);
+  //   } catch (error) {
+  //     console.log(error);
+  //     // setError(error);
+  //   }
 
-    //     console.log("RegisterAgency Registered");
-    //   } catch (error) {
-    //     setError(error);
-    //   }
-  };
+  // };
   return (
     <div className="flex-col bg-indigo-50 w-full pr-6">
       <div class="h-full mt-14 mb-10 mx-auto  w-11/12">

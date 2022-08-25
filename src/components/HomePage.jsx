@@ -64,16 +64,13 @@ const features = [
 
 const footerNavigation = {
   solutions: [
-    { name: "Marketing", href: "#" },
     { name: "Analytics", href: "#" },
     { name: "Commerce", href: "#" },
     { name: "Insights", href: "#" },
   ],
   support: [
-    { name: "Pricing", href: "#" },
     { name: "Documentation", href: "#" },
     { name: "Guides", href: "#" },
-    { name: "API Status", href: "#" },
   ],
   company: [
     { name: "About", href: "#" },
@@ -218,7 +215,7 @@ export default function HomePage() {
                   </div>
                   <div className="mt-6">
                     <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                      Aadhar
+                      Blockhain
                     </h2>
                     <p className="mt-4 text-lg text-gray-500">
                       MyAadhaar is a platform that enables you to manage your
@@ -226,7 +223,7 @@ export default function HomePage() {
                     </p>
                     <div className="mt-6">
                       <a
-                        href="#"
+                        href="/addAgency"
                         className="inline-flex bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white hover:from-purple-700 hover:to-indigo-700"
                       >
                         Get started
@@ -238,9 +235,9 @@ export default function HomePage() {
                   <blockquote>
                     <div>
                       <p className="text-base text-gray-500">
-                        &ldquo;Cras velit quis eros eget rhoncus lacus ultrices
-                        sed diam. Sit orci risus aenean curabitur donec aliquet.
-                        Mi venenatis in euismod ut.&rdquo;
+                        &ldquo;We have elected to put our money and faith in a
+                        mathematical framework that is free of politics and
+                        human error.&rdquo;
                       </p>
                     </div>
                     <footer className="mt-3">
@@ -253,7 +250,7 @@ export default function HomePage() {
                           />
                         </div>
                         <div className="text-base font-medium text-gray-700">
-                          Marcia Hill, Digital Marketing Manager
+                          Tyler Winkelvoss, Rower & Entrepreneur
                         </div>
                       </div>
                     </footer>
@@ -264,7 +261,7 @@ export default function HomePage() {
                 <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
                   <img
                     className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src="https://tailwindui.com/img/component-images/inbox-app-screenshot-1.jpg"
+                    src="https://kseeb.karnataka.gov.in/NICBLOCKCHAIN_NEW/images/banners/banner1.jpg"
                     alt="Inbox user interface"
                   />
                 </div>
@@ -285,7 +282,7 @@ export default function HomePage() {
                   </div>
                   <div className="mt-6">
                     <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                      Better understand your customers
+                      Aadhar
                     </h2>
                     <p className="mt-4 text-lg text-gray-500">
                       Semper curabitur ullamcorper posuere nunc sed. Ornare
@@ -305,7 +302,7 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-              <div className="mt-12 sm:mt-16 lg:mt-0 lg:col-start-1">
+              <div className="mt-2 sm:mt-16 lg:mt-0 lg:col-start-1">
                 <div className="pr-4 -ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
                   <img
                     className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
@@ -319,7 +316,7 @@ export default function HomePage() {
         </div>
 
         {/* Gradient Feature Section */}
-        <div className="bg-gradient-to-r from-purple-800 to-indigo-700">
+        <div className="bg-gradient-to-tr from-sky-400 to-blue-500">
           <div className="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
             <h2 className="text-3xl font-extrabold text-white tracking-tight">
               Inbox support built for efficiency
@@ -329,7 +326,7 @@ export default function HomePage() {
               magna sit morbi lobortis. Blandit aliquam sit nisl euismod mattis
               in.
             </p>
-            <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
+            <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
               {features.map((feature) => (
                 <div key={feature.name}>
                   <div>
@@ -380,7 +377,7 @@ export default function HomePage() {
                     ))}
                   </ul>
                 </div>
-                <div className="mt-12 md:mt-0">
+                <div className="mt-2 md:mt-0">
                   <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
                     Support
                   </h3>
@@ -399,23 +396,6 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-8">
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                    Company
-                  </h3>
-                  <ul className="mt-4 space-y-4">
-                    {footerNavigation.company.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-base text-gray-500 hover:text-gray-900"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
                 <div className="mt-12 md:mt-0">
                   <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
                     Legal
@@ -435,7 +415,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="mt-12 xl:mt-0">
+            <div className="mt-2 xl:mt-0">
               <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
                 Subscribe to our newsletter
               </h3>
@@ -481,7 +461,7 @@ export default function HomePage() {
               ))}
             </div>
             <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
-              &copy; 2020 Workflow, Inc. All rights reserved.
+              &copy; 2022 Cartographers. All rights reserved.
             </p>
           </div>
         </div>

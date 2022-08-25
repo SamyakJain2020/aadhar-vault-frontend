@@ -150,7 +150,7 @@ function Agency() {
                     />
                   )}
                   <span className="ml-3">
-                    {Loading ? "Loading" : "Sign Up"}
+                    {Loading ? "Executing" : "Sign Up"}
                   </span>
                 </button>
                 <Modal

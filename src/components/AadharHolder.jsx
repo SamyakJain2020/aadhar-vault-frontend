@@ -10,6 +10,7 @@ function AadharHolder() {
   const [account, setAccount] = useState("");
   const [error, setError] = useState(false);
   const [Name, setName] = useState("");
+  const [ID, setID] = useState();
   const [signature, setSignature] = useState("");
   const [Agencies, setAgencies] = useState([]);
   const [Data, setData] = useState([]);
@@ -45,14 +46,13 @@ function AadharHolder() {
     try {
       let Agencies = await contract.getAllAgencyData();
       setAgencies(Agencies);
-      setData(
-        Agencies[1]?.filter((agency, index) => {
-          return {
-            value: agency.id,
-            label: agency.name,
-          };
-        })
-      );
+      console.log(Agencies);
+      let a = Agencies[1]?.map((agency, index) => {
+        return {
+          value: index,
+          label: agency.name,
+        };
+      });
     } catch (error) {
       console.log(error);
       setError(error);
@@ -101,9 +101,12 @@ function AadharHolder() {
       );
       await RegisterAgency.wait();
       setOpenedSuccess(true);
-      console.log("RegisterAgency Registered");
+      setLoading(false);
+      console.log("RegisterAgency Registered", RegisterAgency);
     } catch (error) {
       setOpenedFailure(true);
+      setLoading(false);
+
       console.log(error);
       setError(error);
     }
@@ -119,16 +122,15 @@ function AadharHolder() {
       signer
     );
     try {
-      let RegisterAgency = await contract.RegisterNewAadhaarHolder(
-        Name,
-        signature
-      );
+      let RegisterAgency = await contract.RegisterAadhaarInAgency(2, ID);
       await RegisterAgency.wait();
       setOpenedSuccess(true);
       setLoading1(false);
       console.log("RegisterAgency Registered");
     } catch (error) {
+      setLoading1(false);
       setOpenedFailure(true);
+      console.log(error);
       setError(error);
     }
   };
@@ -136,7 +138,7 @@ function AadharHolder() {
     <div className="Holder text-2xl">
       <div className="container" id="container">
         <div className="form-container sign-up-container">
-          <form action="#">
+          <div className="form" action="#">
             <h1>Create Aadhar Account</h1>
             <span>or use your Biometric Data for registration</span>
             <input
@@ -148,16 +150,23 @@ function AadharHolder() {
             <input
               type="password"
               placeholder="Signature"
-              onChange={(e) => setSignature(e.target.value)}
+              onChange={(e) => {
+                let x = e.target.value;
+                setSignature(x);
+              }}
               value={signature}
             />
-            <button className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 border-none">
-              Add Aadhar
+            {/* ethers.utils.hashMessage(x) */}
+            <button
+              className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 border-none"
+              onClick={handleAadharRegister}
+            >
+              {Loading ? "Executing Txn..." : "Add Aadhar"}
             </button>
-          </form>
+          </div>
         </div>
         <div className="form-container sign-in-container">
-          <form action="#">
+          <div className="form">
             <h1>Add Aahar to Vault</h1>
             <span>or use your account</span>
 
@@ -167,23 +176,31 @@ function AadharHolder() {
               placeholder="Pick one"
               data={Data}
               value={AgencyID}
-              onChange={(e) => setAgencyID(e.value)}
+              onChange={(e) => {
+                setAgencyID(e.value);
+                console.log(e.value);
+              }}
             />
-            <input type="text" placeholder="SSI Address" />
+            <input
+              type="text"
+              placeholder="SSI Address"
+              onChange={(e) => setID(e.target.value)}
+              value={ID}
+            />
             <button
               className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 border-none"
               onClick={handleAadharRegisterInAgency}
             >
-              Add Aadhar
+              {Loading1 ? "Executing Transaction..." : "Add Aadhar"}
             </button>
-          </form>
+          </div>
         </div>
 
         <Modal opened={openedSuccess} onClose={() => setOpenedSuccess(false)}>
-          <div class="w-full  overflow-hidden rounded-lg bg-white">
+          <div className="w-full  overflow-hidden rounded-lg bg-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="mx-auto mt-8 h-16 w-16 text-green-400"
+              className="mx-auto mt-8 h-16 w-16 text-green-400"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -193,21 +210,21 @@ function AadharHolder() {
                 clip-rule="evenodd"
               />
             </svg>
-            <h1 class="mt-2 text-center text-2xl font-bold text-gray-500">
+            <h1 className="mt-2 text-center text-2xl font-bold text-gray-500">
               Success
             </h1>
-            <p class="my-4 text-center text-sm text-gray-500">
+            <p className="my-4 text-center text-sm text-gray-500">
               Woah, successfully completed 50% Tasks. We will Approve You
               shortly.
             </p>
-            <div class="space-x-4  py-4 text-center">
+            <div className="space-x-4  py-4 text-center">
               <button
-                class="inline-block rounded-md bg-red-500 px-10 py-2 font-semibold text-red-100 shadow-md duration-75 hover:bg-red-400"
+                className="inline-block rounded-md bg-red-500 px-10 py-2 font-semibold text-red-100 shadow-md duration-75 hover:bg-red-400"
                 onClick={() => setOpenedSuccess(false)}
               >
-                Cancel
+                Close
               </button>
-              {/* <button class="inline-block rounded-md bg-green-500 px-6 py-2 font-semibold text-green-100 shadow-md duration-75 hover:bg-green-400">
+              {/* <button className="inline-block rounded-md bg-green-500 px-6 py-2 font-semibold text-green-100 shadow-md duration-75 hover:bg-green-400">
                         Dashboard
                       </button> */}
             </div>
@@ -215,10 +232,10 @@ function AadharHolder() {
         </Modal>
 
         <Modal opened={openedFailure} onClose={() => setOpenedFailure(false)}>
-          <div class="w-full  overflow-hidden rounded-lg bg-white">
+          <div className="w-full  overflow-hidden rounded-lg bg-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="mx-auto mt-8 h-16 w-16 text-red-500"
+              className="mx-auto mt-8 h-16 w-16 text-red-500"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -228,20 +245,23 @@ function AadharHolder() {
                 clip-rule="evenodd"
               />
             </svg>
-            <h1 class="mt-2 text-center text-2xl font-bold text-gray-500">
+            <h1 className="mt-2 text-center text-2xl font-bold text-gray-500">
               Cancel
             </h1>
-            <p class="my-4 text-center text-sm text-gray-500">
-              Just a small miss, 2/5 Tasks
+            <p className="my-4 text-center text-sm text-gray-500">
+              Just a small miss.
             </p>
-            <div class="space-x-4  py-4 text-center">
+            <p className="my-4 text-center text-sm text-gray-500">
+              {"User already Exist"}
+            </p>
+            <div className="space-x-4  py-4 text-center">
               <button
-                class="inline-block rounded-md bg-red-500 px-10 py-2 font-semibold text-red-100 shadow-md duration-75 hover:bg-red-400"
+                className="inline-block rounded-md bg-red-500 px-10 py-2 font-semibold text-red-100 shadow-md duration-75 hover:bg-red-400"
                 onClick={() => setOpenedFailure(false)}
               >
                 Cancel
               </button>
-              {/* <button class="inline-block rounded-md bg-green-500 px-6 py-2 font-semibold text-green-100 shadow-md duration-75 hover:bg-green-400">
+              {/* <button className="inline-block rounded-md bg-green-500 px-6 py-2 font-semibold text-green-100 shadow-md duration-75 hover:bg-green-400">
                         Try Again
                       </button> */}
             </div>

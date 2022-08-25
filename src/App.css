@@ -63,7 +63,7 @@
 	border-color: #FFFFFF;
 }
 
-.Holder form {
+.Holder .form {
 	background-color: #FFFFFF;
 	display: flex;
 	align-items: center;

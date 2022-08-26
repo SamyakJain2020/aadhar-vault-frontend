@@ -4,12 +4,14 @@ import { Select } from "@mantine/core";
 import { Modal } from "@mantine/core";
 
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x7aa244828F6B86Fe24eaB8AfF44F1f47F7C1FF2a";
+const dataVaultAddress = "0x37E792b19e968B6E5BdfE70ba3Db76a158304ba0";
 // giveAadhaar
 function AadharHolder() {
   const [account, setAccount] = useState("");
   const [error, setError] = useState(false);
   const [Name, setName] = useState("");
+  const [Phone, setPhone] = useState("");
+  const [Add, setAdd] = useState("");
   const [ID, setID] = useState();
   const [signature, setSignature] = useState("");
   const [Agencies, setAgencies] = useState([]);
@@ -20,6 +22,7 @@ function AadharHolder() {
   const [Loading, setLoading] = useState(false);
   const [Aadhars, setAadhars] = useState([]);
   const [Loading1, setLoading1] = useState(false);
+
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
@@ -110,11 +113,12 @@ function AadharHolder() {
     setLoading(true);
 
     //check if signature is present in Aadhars array
-    let found = Aadhars.find((aadhar) => {
-      return aadhar === signature;
-    }) !== undefined;
+    let found =
+      Aadhars.find((aadhar) => {
+        return aadhar === signature;
+      }) !== undefined;
     if (found) {
-      console.log("Duplicate Found")
+      console.log("Duplicate Found");
       setLoading(false);
       setOpenedFailure(true);
       return;
@@ -130,7 +134,9 @@ function AadharHolder() {
     try {
       let RegisterAgency = await contract.RegisterNewAadhaarHolder(
         Name,
-        signature
+        signature,
+        Phone,
+        Add
       );
       await RegisterAgency.wait();
       setOpenedSuccess(true);
@@ -188,6 +194,18 @@ function AadharHolder() {
                 setSignature(x);
               }}
               value={signature}
+            />
+            <input
+              type="text"
+              placeholder="Citizen Phone Number"
+              onChange={(e) => setPhone(e.target.value)}
+              value={Phone}
+            />
+            <input
+              type="text"
+              placeholder="Citizen Address"
+              onChange={(e) => setAdd(e.target.value)}
+              value={Add}
             />
             {/* ethers.utils.hashMessage(x) */}
             <button

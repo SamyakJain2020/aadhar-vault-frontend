@@ -4,7 +4,7 @@ import { Checkbox } from "@mantine/core";
 
 import { useSearchParams } from "react-router-dom";
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x7aa244828F6B86Fe24eaB8AfF44F1f47F7C1FF2a";
+const dataVaultAddress = "0x37E792b19e968B6E5BdfE70ba3Db76a158304ba0";
 
 function MyAgency() {
   const [account, setAccount] = useState("");

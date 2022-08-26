@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { Checkbox } from "@mantine/core";
 import { Modal } from "@mantine/core";
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x7aa244828F6B86Fe24eaB8AfF44F1f47F7C1FF2a";
+const dataVaultAddress = "0x37E792b19e968B6E5BdfE70ba3Db76a158304ba0";
 
 function Agency() {
   const [account, setAccount] = useState("");
@@ -16,8 +16,9 @@ function Agency() {
   const [openedFailure, setOpenedFailure] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [message, setMessage] = useState();
+  const [GovnId, setGovnId] = useState();
   const [Agencies, setAgencies] = useState([]);
-
+  // setGovnId
   useEffect(() => {
     checkWalletConnected();
     getAgency();
@@ -90,7 +91,7 @@ function Agency() {
       signer
     );
     try {
-      let RegisterAgency = await contract.RegisterAgency(orgName, [
+      let RegisterAgency = await contract.RegisterAgency(orgName, GovnId, [
         permi1 ? 1 : 0,
         permi2 ? 1 : 0,
         permi3 ? 1 : 0,
@@ -146,6 +147,22 @@ function Agency() {
                     value={orgName}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
+                  <label
+                    htmlFor="name"
+                    id="name"
+                    className="leading-7 text-xl text-gray-600"
+                  >
+                    Goverment ID
+                  </label>
+                  <input
+                    type="string"
+                    id="name"
+                    name="name"
+                    placeholder="Name"
+                    onChange={(e) => setGovnId(e.target.value)}
+                    value={GovnId}
+                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                  />
                   {message ? (
                     <div className="text-red-500 text-sm">{message}</div>
                   ) : null}
@@ -168,7 +185,8 @@ function Agency() {
 
                 <button
                   className={`mt-5 tracking-wide font-semibold bg-gradient-to-tr from-blue-400 via-blue-400 to-blue-500 text-gray-100 w-full ${
-                    Loading && "disabled pointer-events-none " } py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}
+                    Loading && "disabled pointer-events-none "
+                  } py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}
                   onClick={handleRegister}
                 >
                   {Loading !== true ? (

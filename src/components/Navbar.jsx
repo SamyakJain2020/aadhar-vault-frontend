@@ -6,7 +6,7 @@ import aLogo from "./assets/uidai_english_logo.dd2d2a1c.svg";
 // import { NavLink } from "@mantine/core";
 import { ethers } from "ethers";
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0xed1d620Ba186632302928f8A44A3724260387c58";
+const dataVaultAddress = "0xec26415e639D958995CD4FF682003A6021d4c0Da";
 
 export default function Example() {
   const [account, setAccount] = useState("");

@@ -9,7 +9,7 @@ import { IconChevronDown } from "@tabler/icons";
 import InputMask from "react-input-mask";
 
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0xed1d620Ba186632302928f8A44A3724260387c58";
+const dataVaultAddress = "0xec26415e639D958995CD4FF682003A6021d4c0Da";
 // giveAadhaar
 function AadharHolder() {
   const [account, setAccount] = useState("");
@@ -251,7 +251,7 @@ function AadharHolder() {
             <Input
               className="input text-xl w-full m-4"
               placeholder="Citizen Address"
-              onChange={(e) => setAdd(e.target.value)}  
+              onChange={(e) => setAdd(e.target.value)}
               value={Add}
             />
             <button

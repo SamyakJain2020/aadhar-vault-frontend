@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0xed1d620Ba186632302928f8A44A3724260387c58";
+const dataVaultAddress = "0xec26415e639D958995CD4FF682003A6021d4c0Da";
 function Agency() {
   const [account, setAccount] = useState("");
   const [error, setError] = useState(false);
@@ -89,7 +89,7 @@ function Agency() {
     //   setIsUidai(true);
     // } catch (error) {
     //   // setError(error);
-    // }  
+    // }
     // console.log("account",account)
     // if (addDocument != account) {
     //   console.log("Not UIDAI");
@@ -113,13 +113,12 @@ function Agency() {
       setError(error);
     }
   };
-  if (Message !== "")
-  return <div className="text-center">{Message}</div>;
+  if (Message !== "") return <div className="text-center">{Message}</div>;
   return (
     <div className=" p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 text-center">
       {Agencies[1]?.map((agency, index) => {
         if (index === 0) return;
-       
+
         return (
           <>
             <div
@@ -127,10 +126,11 @@ function Agency() {
               className=" rounded overflow-hidden shadow-lg ring ring-pink-500 ring-offset-2 ring-offset-pink-100"
             >
               <div className="px-6 py-4">
-                <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
+                <h2 className="tracking-widest text-md title-font font-medium text-gray-400 mb-1">
                   ID: {Number(Agencies[0][index])}
                 </h2>
                 <div className="font-bold text-xl mb-2"> Name:{agency}</div>
+                <div className="font-bold text-xl mb-2"> Gov ID:{agency}</div>
                 <p className="text-gray-700 text-base font-bold">Permissions</p>
                 {Agencies[3][index].map((permission, i) => {
                   return (
@@ -171,18 +171,18 @@ function Agency() {
                   </span>
                 )}
               </p>
-              <p className="leading-relaxed mb-3 font-bold">Admins</p>
-              <div className="px-3  pb-2">
+              <p className="leading-relaxed mt-3 font-bold">Admins</p>
+              <p className="px-3  pb-2">
                 {Agencies[4][index].map((Admin) => {
                   return (
-                    <div>
+                    <p>
                       <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
                         {`# ${Admin.substring(0, 8)}`}
                       </span>
-                    </div>
+                    </p>
                   );
                 })}
-              </div>
+              </p>
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 onClick={() =>

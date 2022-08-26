@@ -108,6 +108,7 @@ function Agency() {
       let Agencies = await contract.getAllAgencyData();
       //   await Agencies.wait();
       setAgencies(Agencies);
+      console.log("Agencies", Agencies);
     } catch (error) {
       console.log(error);
       setError(error);
@@ -130,7 +131,7 @@ function Agency() {
                   ID: {Number(Agencies[0][index])}
                 </h2>
                 <div className="font-bold text-xl mb-2"> Name:{agency}</div>
-                <div className="font-bold text-xl mb-2"> Gov ID:{agency}</div>
+                <div className="font-bold text-xl mb-2"> Gov ID:{Number(Agencies[6][index])}</div>
                 <p className="text-gray-700 text-base font-bold">Permissions</p>
                 {Agencies[3][index].map((permission, i) => {
                   return (

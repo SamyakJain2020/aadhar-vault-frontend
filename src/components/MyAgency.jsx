@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { Checkbox } from "@mantine/core";
-import { useParams } from "react-router-dom";
 
+import { useSearchParams } from "react-router-dom";
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x9AC6537422aB056B0A45A0EE1743e9d0659DfC50";
+const dataVaultAddress = "0x7aa244828F6B86Fe24eaB8AfF44F1f47F7C1FF2a";
 
 function MyAgency() {
   const [account, setAccount] = useState("");
   const [Agencies, setAgencies] = useState([]);
-  const [Id, setId] = useState(0);
-  // const { id } = useParams();
-  // setId(id);
-  // console.log(id);
+  const [id, setid] = useState(0);
+  const [name, setname] = useState("");
+  const [permission, setpermission] = useState([]);
+  const [status, setstatus] = useState("");
+  const [admins, setadmins] = useState([]);
+  const [users, setusers] = useState([]);
+  // const [Id, setId] = useState(0);
+
+  const [searchParams] = useSearchParams();
   useEffect(() => {
+    console.log("ID: ", searchParams.get("id"));
     checkWalletConnected();
-    // getAgency();
+    getAgency();
   }, []);
 
   const checkWalletConnected = async () => {
@@ -44,27 +50,34 @@ function MyAgency() {
       console.log("Create a Polygon Matic Account");
     }
   };
-  // let getAgency = async () => {
-  //   console.log("Finding ");
-  //   let provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   let signer = await provider.getSigner();
-  //   let contract = new ethers.Contract(
-  //     dataVaultAddress,
-  //     dataVaultAbi.abi,
-  //     signer
-  //   );
-  //   try {
-  //     let Agencies = await contract.getAllAgencyData();
-  //     //   await Agencies.wait();
-  //     setAgencies(Agencies);
-  //   } catch (error) {
-  //     console.log(error);
-  //     // setError(error);
-  //   }
+  let getAgency = async () => {
+    console.log("Finding ");
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    let signer = await provider.getSigner();
+    let contract = new ethers.Contract(
+      dataVaultAddress,
+      dataVaultAbi.abi,
+      signer
+    );
+    try {
+      let Agencies = await contract.getAllAgencyData();
+      //   await Agencies.wait();
+      setAgencies(Agencies);
+      setid(Number(Agencies[0][id]));
+      setname(Agencies[1][id]);
+      setstatus(Agencies[2][id]);
+      setpermission(Agencies[3][id]);
+      setadmins(Agencies[4][id]);
+      setusers(Agencies[5][id]);
 
-  // };
+      console.log("Agencies: ", Agencies);
+    } catch (error) {
+      console.log(error);
+      // setError(error);
+    }
+  };
   return (
-    <div className="flex-col bg-indigo-50 w-full pr-6">
+    <div className="">
       <div class="h-full mt-14 mb-10 mx-auto  w-11/12">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
           <div class="bg-blue-500 dark:bg-white-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-white-600 text-white font-medium group">
@@ -504,7 +517,7 @@ function MyAgency() {
           </div>
         </div>
 
-        <div class="mt-4 mx-4">
+        <div class="mt-4 mb-8 mx-4">
           <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
               <table class="w-full">
@@ -680,89 +693,7 @@ function MyAgency() {
                 </tbody>
               </table>
             </div>
-            <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-white-500 uppercase border-t dark:border-white-700 bg-white-50 sm:grid-cols-9 dark:text-white-400 dark:bg-white-800">
-              <span class="flex items-center col-span-3">
-                {" "}
-                Showing 21-30 of 100{" "}
-              </span>
-              <span class="col-span-2"></span>
-
-              <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
-                <nav aria-label="Table navigation">
-                  <ul class="inline-flex items-center">
-                    <li>
-                      <button
-                        class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
-                        aria-label="Previous"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="w-4 h-4 fill-current"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                            clip-rule="evenodd"
-                            fill-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        1
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        2
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 text-white dark:text-white-800 transition-colors duration-150 bg-blue-600 dark:bg-white-100 border border-r-0 border-blue-600 dark:border-white-100 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        3
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        4
-                      </button>
-                    </li>
-                    <li>
-                      <span class="px-3 py-1">...</span>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        8
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        9
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
-                        aria-label="Next"
-                      >
-                        <svg
-                          class="w-4 h-4 fill-current"
-                          aria-hidden="true"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clip-rule="evenodd"
-                            fill-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
-              </span>
-            </div>
+            
           </div>
         </div>
       </div>

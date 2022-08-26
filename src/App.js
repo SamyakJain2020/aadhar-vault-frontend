@@ -63,7 +63,7 @@ function App() {
           <Route path="/addAadharUser" element={<AadharHolder />} />
           <Route path="/myAadhar" element={<MyAadhar />} />
           {/* <Route path="/myAgency/:id" element={<MyAgency />} /> */}
-          <Route path="/myAgency/" element={<MyAgency />} />
+          <Route path="/myAgency" element={<MyAgency />} />
         </Routes>
       </Router>
     </div>

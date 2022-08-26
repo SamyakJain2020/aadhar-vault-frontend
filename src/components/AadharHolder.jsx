@@ -4,7 +4,7 @@ import { Select } from "@mantine/core";
 import { Modal } from "@mantine/core";
 
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x9AC6537422aB056B0A45A0EE1743e9d0659DfC50";
+const dataVaultAddress = "0x7aa244828F6B86Fe24eaB8AfF44F1f47F7C1FF2a";
 // giveAadhaar
 function AadharHolder() {
   const [account, setAccount] = useState("");

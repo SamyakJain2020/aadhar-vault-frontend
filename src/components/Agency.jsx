@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { Checkbox } from "@mantine/core";
 import { Modal } from "@mantine/core";
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x9AC6537422aB056B0A45A0EE1743e9d0659DfC50";
+const dataVaultAddress = "0x7aa244828F6B86Fe24eaB8AfF44F1f47F7C1FF2a";
 
 function Agency() {
   const [account, setAccount] = useState("");
@@ -68,8 +68,7 @@ function Agency() {
   };
   let handleRegister = async () => {
     if (orgName === "") return;
-    // Agencies[1]
-    // find if orgName is present in the list Agencies[1]
+    await getAgency();
     let found = false;
     console.log(Agencies[1]);
     found = Agencies[1].find((element) => {
@@ -79,6 +78,7 @@ function Agency() {
       setMessage(
         `Organization already registered with us (with this ${account} reference Number)`
       );
+      return;
     }
     console.log("Registering");
     setLoading(true);
@@ -97,6 +97,12 @@ function Agency() {
       ]);
       await RegisterAgency.wait();
       setOpenedSuccess(true);
+      // document.getElementById("name").value = "";
+      var grab = document.getElementById("name");
+      console.log(grab);
+      if (grab.value !== "") {
+        grab.value = "";
+      }
       setLoading(false);
       console.log("RegisterAgency Registered");
     } catch (error) {
@@ -126,6 +132,7 @@ function Agency() {
                 <div className="relative mb-4">
                   <label
                     htmlFor="name"
+                    id="name"
                     className="leading-7 text-xl text-gray-600"
                   >
                     Name of Organisation
@@ -161,8 +168,7 @@ function Agency() {
 
                 <button
                   className={`mt-5 tracking-wide font-semibold bg-gradient-to-tr from-blue-400 via-blue-400 to-blue-500 text-gray-100 w-full ${
-                    Loading ? "disabled" : ""
-                  } py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}
+                    Loading && "disabled pointer-events-none " } py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}
                   onClick={handleRegister}
                 >
                   {Loading !== true ? (

@@ -9,16 +9,20 @@ import {
 } from "react-router-dom";
 
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x9AC6537422aB056B0A45A0EE1743e9d0659DfC50";
+const dataVaultAddress = "0x7aa244828F6B86Fe24eaB8AfF44F1f47F7C1FF2a";
 function Agency() {
   const [account, setAccount] = useState("");
   const [error, setError] = useState(false);
   const [Agencies, setAgencies] = useState([]);
+  const [isUidai, setIsUidai] = useState(false);
+  const [Message, setMessage] = useState("");
+
   useEffect(() => {
     checkWalletConnected();
+    handleUIDAI();
     getAgency();
   }, []);
-
+  let handleUIDAI = async () => {};
   const checkWalletConnected = async () => {
     const { ethereum } = window;
 
@@ -45,8 +49,10 @@ function Agency() {
       console.log("Create a Polygon Matic Account");
     }
   };
+
   let handleAgency = async (id, status) => {
     console.log("Registering");
+
     let provider = new ethers.providers.Web3Provider(window.ethereum);
     let signer = await provider.getSigner();
     let contract = new ethers.Contract(
@@ -66,6 +72,31 @@ function Agency() {
   };
   let getAgency = async () => {
     console.log("Finding ");
+
+    // console.log("Finding UIDAI");
+    // let provider = new ethers.providers.Web3Provider(window.ethereum);
+    // let signer = await provider.getSigner();
+    // let contract1 = new ethers.Contract(
+    //   dataVaultAddress,
+    //   dataVaultAbi.abi,
+    //   signer
+    // );
+    // let addDocument;
+    // try {
+    //   addDocument = await contract1._UIDAI();
+    //   console.log("UIDAI=" + addDocument);
+    //   await addDocument.wait();
+    //   setIsUidai(true);
+    // } catch (error) {
+    //   // setError(error);
+    // }  
+    // console.log("account",account)
+    // if (addDocument != account) {
+    //   console.log("Not UIDAI");
+    //   setMessage("You are not authorized to This route");
+    //   return
+    // }
+
     let provider = new ethers.providers.Web3Provider(window.ethereum);
     let signer = await provider.getSigner();
     let contract = new ethers.Contract(
@@ -82,10 +113,13 @@ function Agency() {
       setError(error);
     }
   };
+  if (Message !== "")
+  return <div className="text-center">{Message}</div>;
   return (
     <div className=" p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 text-center">
       {Agencies[1]?.map((agency, index) => {
         if (index === 0) return;
+       
         return (
           <>
             <div
@@ -119,7 +153,6 @@ function Agency() {
                           </span>
                         )}
                       </p>
-                     
                     </div>
                   );
                 })}
@@ -164,7 +197,7 @@ function Agency() {
                 // onClick={() => handleAgency(agency, true)}
               >
                 <a
-                  href={`/myAgency`} ///${Number(Agencies[0][index])}
+                  href={`/myAgency?id=${Number(Agencies[0][index])}`} ///${Number(Agencies[0][index])}
                   className="text-base font-medium text-white hover:underline underline-offset-4 transition duration-1000 "
                 >
                   Agency Dashboard

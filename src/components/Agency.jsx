@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { Checkbox } from "@mantine/core";
 import { Modal } from "@mantine/core";
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x37E792b19e968B6E5BdfE70ba3Db76a158304ba0";
+const dataVaultAddress = "0xed1d620Ba186632302928f8A44A3724260387c58";
 
 function Agency() {
   const [account, setAccount] = useState("");

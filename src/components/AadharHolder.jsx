@@ -9,7 +9,7 @@ import { IconChevronDown } from "@tabler/icons";
 import InputMask from "react-input-mask";
 
 import dataVaultAbi from "../contracts/DataVault.json";
-const dataVaultAddress = "0x37E792b19e968B6E5BdfE70ba3Db76a158304ba0";
+const dataVaultAddress = "0xed1d620Ba186632302928f8A44A3724260387c58";
 // giveAadhaar
 function AadharHolder() {
   const [account, setAccount] = useState("");
@@ -197,7 +197,7 @@ function AadharHolder() {
       signer
     );
     try {
-      let RegisterAgency = await contract.RegisterAadhaarInAgency(2, ID);
+      let RegisterAgency = await contract.RegisterAadhaarInAgency(1, ID);
       await RegisterAgency.wait();
       setOpenedSuccess(true);
       setLoading1(false);
@@ -218,16 +218,16 @@ function AadharHolder() {
           <div className="form" action="#">
             <h1 className="text-2xl ">Create Aadhar Account</h1>
             <span>or use your Biometric Data for registration</span>
-            <input
-              type="text"
+            <Input
+              className="input text-xl w-full m-4"
+              id="name"
               placeholder="Name"
               onChange={(e) => setName(e.target.value)}
               value={Name}
             />
 
-            {/* <Input.Wrapper id = "name" label="Citizen Phone Number" required> */}
             <Input
-              className="input text-xl w-full"
+              className="input text-xl w-full m-4"
               id="name"
               component={InputMask}
               mask="9999-9999-9999"
@@ -240,7 +240,7 @@ function AadharHolder() {
               value={signature}
             />
             <Input
-              className="input text-xl w-full"
+              className="input text-xl w-full m-4"
               component={InputMask}
               mask="+91 (999) 999-99-99"
               // id={useId()}
@@ -248,14 +248,14 @@ function AadharHolder() {
               value={Phone}
               placeholder=" Phone Number"
             />
-            <input
-              type="text"
+            <Input
+              className="input text-xl w-full m-4"
               placeholder="Citizen Address"
-              onChange={(e) => setAdd(e.target.value)}
+              onChange={(e) => setAdd(e.target.value)}  
               value={Add}
             />
             <button
-              className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 border-none"
+              className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 border-none m-4"
               onClick={handleAadharRegister}
             >
               {Loading ? "Executing Txn..." : "Add Aadhar"}
@@ -268,10 +268,12 @@ function AadharHolder() {
             <span>or use your account</span>
 
             <Input
+              className="input text-xl w-full m-4"
               component="select"
               rightSection={<IconChevronDown size={14} stroke={1.5} />}
+              value={AgencyID}
               onChange={(e) => {
-                setAgencyID(e.value);
+                // setAgencyID(e.value);
                 console.log(e.value);
               }}
             >
@@ -290,8 +292,8 @@ function AadharHolder() {
                 );
               })}
             </Input>
-            <input
-              type="text"
+            <Input
+              className="input text-xl w-full m-4"
               placeholder="SSI Address"
               onChange={(e) => setID(e.target.value)}
               value={ID}
@@ -333,9 +335,6 @@ function AadharHolder() {
               >
                 Close
               </button>
-              {/* <button className="inline-block rounded-md bg-green-500 px-6 py-2 font-semibold text-green-100 shadow-md duration-75 hover:bg-green-400">
-                        Dashboard
-                      </button> */}
             </div>
           </div>
         </Modal>

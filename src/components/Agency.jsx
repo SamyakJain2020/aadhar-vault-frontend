@@ -12,6 +12,8 @@ function Agency() {
   const [permi1, setPermi1] = useState(false);
   const [permi2, setPermi2] = useState(false);
   const [permi3, setPermi3] = useState(false);
+  const [permi4, setPermi4] = useState(false);
+  const [permi5, setPermi5] = useState(false);
   const [openedSuccess, setOpenedSuccess] = useState(false);
   const [openedFailure, setOpenedFailure] = useState(false);
   const [Loading, setLoading] = useState(false);
@@ -95,19 +97,32 @@ function Agency() {
         permi1 ? 1 : 0,
         permi2 ? 1 : 0,
         permi3 ? 1 : 0,
+        permi4 ? 1 : 0,
+        permi5 ? 1 : 0,
       ]);
       await RegisterAgency.wait();
       setOpenedSuccess(true);
       // document.getElementById("name").value = "";
-      var grab = document.getElementById("name");
-      console.log(grab);
-      if (grab.value !== "") {
-        grab.value = "";
-      }
+      //clear input fields
+      setOrgName("");
+      setGovnId("");
+      setPermi1(false);
+      setPermi2(false);
+      setPermi3(false);
+      setPermi4(false);
+      setPermi5(false);
+
       setLoading(false);
       console.log("RegisterAgency Registered");
     } catch (error) {
       console.log(error);
+      setOrgName("");
+      setGovnId("");
+      setPermi1(false);
+      setPermi2(false);
+      setPermi3(false);
+      setPermi4(false);
+      setPermi5(false);
       setOpenedFailure(true);
       setLoading(false);
       setError(error);
@@ -180,6 +195,16 @@ function Agency() {
                     label="Permission for Aadhar Signature Access"
                     checked={permi3}
                     onChange={(event) => setPermi3(event.currentTarget.checked)}
+                  />
+                  <Checkbox
+                    label="Permission for Aadhar Phone Number Access"
+                    checked={permi4}
+                    onChange={(event) => setPermi4(event.currentTarget.checked)}
+                  />
+                  <Checkbox
+                    label="Permission for Address Access"
+                    checked={permi5}
+                    onChange={(event) => setPermi5(event.currentTarget.checked)}
                   />
                 </div>
 

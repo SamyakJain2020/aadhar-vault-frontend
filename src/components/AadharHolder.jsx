@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { Select } from "@mantine/core";
 import { Modal } from "@mantine/core";
+import { Input } from "@mantine/core";
+import { IconChevronDown } from "@tabler/icons";
+// import { Input } from '@mantine/core';
+// import { useId } from "@mantine/hooks";
+import InputMask from "react-input-mask";
 
 import dataVaultAbi from "../contracts/DataVault.json";
 const dataVaultAddress = "0x37E792b19e968B6E5BdfE70ba3Db76a158304ba0";
@@ -16,6 +21,7 @@ function AadharHolder() {
   const [signature, setSignature] = useState("");
   const [Agencies, setAgencies] = useState([]);
   const [Data, setData] = useState([]);
+  const [Data1, setData1] = useState([]);
   const [AgencyID, setAgencyID] = useState(null);
   const [openedSuccess, setOpenedSuccess] = useState(false);
   const [openedFailure, setOpenedFailure] = useState(false);
@@ -52,12 +58,21 @@ function AadharHolder() {
       let Agencies = await contract.getAllAgencyData();
       setAgencies(Agencies);
       console.log(Agencies);
-      let a = Agencies[1]?.map((agency, index) => {
+      let a = Agencies[1]?.map((agency) => {
         return {
-          value: index,
-          label: agency.name,
+          agency,
         };
       });
+      console.log("a= ", a);
+      setData(a);
+      let b = Agencies[0]?.map((id) => {
+        return {
+          id,
+        };
+      });
+      console.log("b= ", b);
+
+      setData1(b);
     } catch (error) {
       console.log(error);
       setError(error);
@@ -108,6 +123,17 @@ function AadharHolder() {
       console.log("Create a Polygon Matic Account");
     }
   };
+  function validate() {
+    var phoneNumber = document.getElementById("phone-number").value;
+    var postalCode = document.getElementById("postal-code").value;
+    var phoneRGEX =
+      /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+    var postalRGEX = /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
+    var phoneResult = phoneRGEX.test(phoneNumber);
+    var postalResult = postalRGEX.test(postalCode);
+    alert("phone:" + phoneResult + ", postal code: " + postalResult);
+  }
+
   let handleAadharRegister = async () => {
     console.log("Registering");
     setLoading(true);
@@ -140,10 +166,20 @@ function AadharHolder() {
       );
       await RegisterAgency.wait();
       setOpenedSuccess(true);
+      // empty the input fields
+      setName("");
+      setPhone("");
+      setAdd("");
+      setSignature("");
+
       setLoading(false);
       console.log("RegisterAgency Registered", RegisterAgency);
     } catch (error) {
       setOpenedFailure(true);
+      setName("");
+      setPhone("");
+      setAdd("");
+      setSignature("");
       setLoading(false);
 
       console.log(error);
@@ -165,6 +201,8 @@ function AadharHolder() {
       await RegisterAgency.wait();
       setOpenedSuccess(true);
       setLoading1(false);
+      // empty the input fields
+      setID("");
       console.log("RegisterAgency Registered");
     } catch (error) {
       setLoading1(false);
@@ -186,20 +224,29 @@ function AadharHolder() {
               onChange={(e) => setName(e.target.value)}
               value={Name}
             />
-            <input
-              type="text"
-              placeholder="Signature"
+
+            {/* <Input.Wrapper id = "name" label="Citizen Phone Number" required> */}
+            <Input
+              className="input text-xl w-full"
+              id="name"
+              component={InputMask}
+              mask="9999-9999-9999"
+              // id={useId()}
+              placeholder="Citizen Aadhar Number"
               onChange={(e) => {
                 let x = e.target.value;
                 setSignature(x);
               }}
               value={signature}
             />
-            <input
-              type="text"
-              placeholder="Citizen Phone Number"
+            <Input
+              className="input text-xl w-full"
+              component={InputMask}
+              mask="+91 (999) 999-99-99"
+              // id={useId()}
               onChange={(e) => setPhone(e.target.value)}
               value={Phone}
+              placeholder=" Phone Number"
             />
             <input
               type="text"
@@ -207,7 +254,6 @@ function AadharHolder() {
               onChange={(e) => setAdd(e.target.value)}
               value={Add}
             />
-            {/* ethers.utils.hashMessage(x) */}
             <button
               className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 border-none"
               onClick={handleAadharRegister}
@@ -221,17 +267,29 @@ function AadharHolder() {
             <h1>Add Aahar to Vault</h1>
             <span>or use your account</span>
 
-            <Select
-              className="p-4"
-              label="The Agency You Want to be Added"
-              placeholder="Pick one"
-              data={Data}
-              value={AgencyID}
+            <Input
+              component="select"
+              rightSection={<IconChevronDown size={14} stroke={1.5} />}
               onChange={(e) => {
                 setAgencyID(e.value);
                 console.log(e.value);
               }}
-            />
+            >
+              {Data.map((agency, index) => {
+                return (
+                  <option
+                    key={Number(Data1[index])}
+                    value={Number(Data1[index])}
+                    onClick={(e) => {
+                      setAgencyID(e.value);
+                      console.log(e.value);
+                    }}
+                  >
+                    {agency.agency}
+                  </option>
+                );
+              })}
+            </Input>
             <input
               type="text"
               placeholder="SSI Address"
@@ -324,7 +382,7 @@ function AadharHolder() {
             <div className="overlay-panel overlay-left">
               <h1>Want To Add to a Govermental Agency!</h1>
               <p>
-                {/* To keep connected with  please login with your personal info */}
+                {/* To keep connected with  please loginS with your personal info */}
               </p>
               <button className="ghost" id="signIn">
                 Join With us
